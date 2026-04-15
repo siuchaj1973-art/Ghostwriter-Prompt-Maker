@@ -1,0 +1,109 @@
+**✅ GOTOWY, KOMPLETNY PROMPT DO Wklejenia w Replit (Ghostwriter / AI w Replit)**
+
+Skopiuj **cały tekst poniżej** i wklej bezpośrednio do Replit AI:
+
+---
+
+**You are Senior Frontend Developer & Creative Director** with 10+ years experience in luxury travel websites.
+
+**Task:**  
+Create a **full, production-ready, single-page React + Tailwind CSS** web application for the premium family road trip:
+
+**Project Title:**  
+**PĘTLA BAŁKAŃSKA 2026: RODZINNY ROADTRIP PREMIUM**
+
+### Design Guidelines (must be followed exactly):
+- **Dark Luxury Palette**:  
+  Background: `#0F1115`  
+  Cards / Sections: `#1A1D23`  
+  Accents / Gold: `#D4AF37`  
+  Text: white / soft gold
+- **Typography**:  
+  Headers → **Playfair Display** (serif)  
+  Body → **Montserrat** (sans-serif)
+- **Effects**:  
+  - Subtle parallax on hero  
+  - Framer Motion scroll-reveal animations (fade-up + stagger)  
+  - Glassmorphism (backdrop-blur-md + border-gold)  
+  - Smooth scroll navigation
+- Fully **responsive** (mobile-first), beautiful on phone and desktop.
+
+### Required Libraries (include import statements):
+- `lucide-react` (icons: Car, MapPin, Calendar, Users, Fuel, Download, etc.)
+- `framer-motion`
+- `jspdf`
+
+### Sections to build (in this exact order):
+
+1. **Hero Section**  
+   - Big title: **PĘTLA BAŁKAŃSKA 2026**  
+   - Subtitle: **Rodzinny Roadtrip Premium**  
+   - Context: Warszawa – Rumunia – Grecja – Bułgaria – Salina Turda  
+   - Background: dramatic image of black 2017 Cadillac Escalade ESV driving on Transfăgărășan highway (use high-quality Unsplash placeholder)  
+   - Stats in elegant gold cards (Dystans, Czas, Ekipa, Paliwo)  
+   - CTA buttons: „Zacznij podróż” + **„Pobierz PDF Planu”**
+
+2. **Dashboard Logistyczny** (5 glassmorphic cards)  
+   - Dystans: **ok. 3500 km**  
+   - Czas: **19 dni (10.08 – 28.08)**  
+   - Ekipa: **5 osób + Kot**  
+   - Paliwo: **ok. 450-500 litrów (Cadillac ESV)**  
+   - Pojazd: **2017 Cadillac Escalade ESV** (dedicated card with technical specs)
+
+3. **Tabela Trasy** (interactive, beautiful table / grid – 19 dni)  
+   Use the exact data:
+
+   | Dzień | Miasto          | Atrakcja                          | Deep Dive                  | Hotel                  |
+   |-------|-----------------|-----------------------------------|----------------------------|------------------------|
+   | 1     | Krosno          | Baza startowa                     | Tranzyt 1                  | Nocleg Prywatny        |
+   | 2-3   | Nyíregyháza     | Sóstó Zoo & Termy                 | 2 dni                      | Hotel Pangea           |
+   | 4-5   | Sibiu           | Trasa Transfăgărășan              | 1 dzień                    | Hilton Sibiu           |
+   | 6-7   | Braszów         | Zamek Bran & Râșnov               | 1 dzień                    | Kronwell Brasov        |
+   | 8-9   | Bansko          | Monastyr Rylski                   | 1 dzień                    | Kempinski Bansko       |
+   | 10-13 | Saloniki        | Meteory & Olimp                   | 4 dni                      | Lazart Hotel           |
+   | 14-16 | Pelion          | Ukryte Plaże & Wioski             | 3 dni                      | Valis Resort           |
+   | 17    | Tyrnowo         | Twierdza Tsarevets                | 1 dzień                    | Yantra Grand Hotel     |
+   | 18    | Turda           | Salina Turda                      | 1 dzień                    | SunGarden Salina       |
+   | 19    | Polska          | Powrót                            | Meta                       | —                      |
+
+   Add country flag emojis + hover effects.
+
+4. **Karty Doświadczeń** (7 beautiful cards with Unsplash images):
+   - Węgry – Północny Start (Sóstó Zoo + Hotel Pangea)
+   - Rumunia – Góry i Drakula (Transfăgărășan + Zamek Bran + Hilton Sibiu)
+   - Bułgaria – SPA pod Monastyrem (Monastyr Rylski + Kempinski Bansko)
+   - Grecja – Meteory i Północ (Saloniki + Lazart Hotel)
+   - Grecja – Zielona Oaza Pelion (ukryte plaże + Valis Resort)
+   - Bułgaria Centralna – Carowie (Tyrnowo + Yantra Grand Hotel)
+   - Rumunia Powrót – Podziemny Kosmos (Salina Turda + SunGarden Salina)
+
+5. **Sticky Navigation** (top bar with logo + links to all sections + PDF button)
+
+### PDF Generation Feature (very important!):
+- Button **„Pobierz PDF Planu”** visible in: sticky nav, hero section, and footer.
+- Clicking opens a **modal** with 4 options:
+  1. Pełny Plan (wszystko + strona tytułowa)
+  2. Tylko Trasa (tabela 19 dni)
+  3. Atrakcje (7 kart doświadczeń)
+  4. Logistyka (dashboard + Cadillac)
+- Use **jsPDF** to generate beautiful PDF with dark luxury style, gold accents, title page with stats, tables, and images descriptions.
+- Show nice progress bar during generation.
+
+### Output format:
+Please return **two separate, complete files** ready to copy-paste:
+
+1. **`src/App.jsx`** – full React component with all sections, state, modal, PDF logic, animations etc.
+2. **`src/index.css`** – Tailwind base + custom styles, font imports (Playfair Display + Montserrat via @import), glassmorphism utilities.
+
+At the very end add:
+**"npm install lucide-react framer-motion jspdf"**  
+and short instruction how to set up Tailwind if needed.
+
+Make the whole app look **extremely premium**, elegant and professional – exactly like a luxury travel agency website.
+
+---
+
+**Gotowe!**  
+Wklej powyższy tekst w Replit i AI wygeneruje Ci **pełny kod App.jsx + index.css** z wszystkimi sekcjami, animacjami i działającym generatorem PDF.  
+
+Chcesz wersję z dodatkowymi komentarzami po polsku albo z konkretnymi linkami Unsplash? Daj znać! 🚀
