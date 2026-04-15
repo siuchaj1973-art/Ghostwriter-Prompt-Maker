@@ -1,4 +1,7 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
+import { LayoutGrid, Route } from "lucide-react";
+import { RoutePreview } from "./route-preview";
 
 const routeData = [
   { day: "1", country: "🇵🇱", city: "Krosno", attraction: "Baza startowa", duration: "Tranzyt 1", hotel: "Nocleg Prywatny" },
@@ -14,6 +17,8 @@ const routeData = [
 ];
 
 export function RouteTable() {
+  const [view, setView] = useState<"preview" | "table">("preview");
+
   return (
     <section id="trasa" className="py-24 md:py-32 bg-card relative">
       <div className="container mx-auto px-6 md:px-12">
@@ -22,50 +27,95 @@ export function RouteTable() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="mb-16 text-center"
+          className="mb-12 text-center"
         >
           <h2 className="text-3xl md:text-5xl font-serif font-bold text-white mb-4">
             Plan Trasy – 19 Dni
           </h2>
           <div className="w-24 h-1 bg-primary mx-auto mb-8"></div>
+
+          {/* View toggle */}
+          <div className="inline-flex items-center gap-1 bg-background/60 border border-primary/20 rounded-xl p-1 backdrop-blur-md">
+            <button
+              onClick={() => setView("preview")}
+              className={`flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 ${
+                view === "preview"
+                  ? "bg-primary text-background shadow-lg"
+                  : "text-white/60 hover:text-white"
+              }`}
+            >
+              <Route size={15} />
+              Podgląd Krok po Kroku
+            </button>
+            <button
+              onClick={() => setView("table")}
+              className={`flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 ${
+                view === "table"
+                  ? "bg-primary text-background shadow-lg"
+                  : "text-white/60 hover:text-white"
+              }`}
+            >
+              <LayoutGrid size={15} />
+              Tabela Trasy
+            </button>
+          </div>
         </motion.div>
 
-        <div className="overflow-x-auto border border-primary/10 rounded-xl glass-panel shadow-2xl">
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="bg-background/80 border-b border-primary/20 text-primary font-serif uppercase tracking-wider text-sm">
-                <th className="p-6 font-medium">Dzień</th>
-                <th className="p-6 font-medium">Kraj</th>
-                <th className="p-6 font-medium">Miasto</th>
-                <th className="p-6 font-medium">Atrakcja</th>
-                <th className="p-6 font-medium">Deep Dive</th>
-                <th className="p-6 font-medium">Hotel</th>
-              </tr>
-            </thead>
-            <tbody>
-              {routeData.map((row, index) => (
-                <motion.tr 
-                  key={index}
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.05 }}
-                  className={`group border-b border-white/5 transition-all duration-300 hover:bg-primary/5 relative ${index % 2 === 0 ? 'bg-transparent' : 'bg-white/[0.02]'}`}
-                >
-                  <td className="p-6 text-white/90 font-medium relative">
-                    <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary scale-y-0 group-hover:scale-y-100 transition-transform origin-center"></div>
-                    {row.day}
-                  </td>
-                  <td className="p-6 text-2xl">{row.country}</td>
-                  <td className="p-6 text-white font-serif">{row.city}</td>
-                  <td className="p-6 text-white/80">{row.attraction}</td>
-                  <td className="p-6 text-white/70 text-sm">{row.duration}</td>
-                  <td className="p-6 text-primary font-serif">{row.hotel}</td>
-                </motion.tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        {/* Step-by-step preview */}
+        {view === "preview" && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <RoutePreview />
+          </motion.div>
+        )}
+
+        {/* Table view */}
+        {view === "table" && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="overflow-x-auto border border-primary/10 rounded-xl glass-panel shadow-2xl"
+          >
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="bg-background/80 border-b border-primary/20 text-primary font-serif uppercase tracking-wider text-sm">
+                  <th className="p-6 font-medium">Dzień</th>
+                  <th className="p-6 font-medium">Kraj</th>
+                  <th className="p-6 font-medium">Miasto</th>
+                  <th className="p-6 font-medium">Atrakcja</th>
+                  <th className="p-6 font-medium">Deep Dive</th>
+                  <th className="p-6 font-medium">Hotel</th>
+                </tr>
+              </thead>
+              <tbody>
+                {routeData.map((row, index) => (
+                  <motion.tr
+                    key={index}
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: index * 0.05 }}
+                    className={`group border-b border-white/5 transition-all duration-300 hover:bg-primary/5 relative ${index % 2 === 0 ? "bg-transparent" : "bg-white/[0.02]"}`}
+                  >
+                    <td className="p-6 text-white/90 font-medium relative">
+                      <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary scale-y-0 group-hover:scale-y-100 transition-transform origin-center"></div>
+                      {row.day}
+                    </td>
+                    <td className="p-6 text-2xl">{row.country}</td>
+                    <td className="p-6 text-white font-serif">{row.city}</td>
+                    <td className="p-6 text-white/80">{row.attraction}</td>
+                    <td className="p-6 text-white/70 text-sm">{row.duration}</td>
+                    <td className="p-6 text-primary font-serif">{row.hotel}</td>
+                  </motion.tr>
+                ))}
+              </tbody>
+            </table>
+          </motion.div>
+        )}
       </div>
     </section>
   );
