@@ -1,13 +1,21 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight, Hotel, Clock, MapPin, Lightbulb, X, ZoomIn, Image } from "lucide-react";
+import { ChevronLeft, ChevronRight, Hotel, Clock, MapPin, Lightbulb, X, ZoomIn, Image, Waves } from "lucide-react";
 
 interface Photo { url: string; caption: string }
+interface Aquapark {
+  name: string;
+  tagline: string;
+  distance: string;
+  features: string[];
+  tip: string;
+}
 interface Stop {
   day: string; dayRange: string; country: string; flag: string;
   city: string; subtitle: string; photos: Photo[];
   hotel: string; duration: string; description: string;
   highlights: string[]; tip: string;
+  aquapark?: Aquapark;
 }
 
 // Unsplash source URLs — bezpłatne, tematyczne, zawsze zwracają pasujące zdjęcie
@@ -33,11 +41,28 @@ const stops: Stop[] = [
   },
   {
     day: "Dzień 2–3", dayRange: "11–12.08.2026", country: "Węgry", flag: "🇭🇺",
-    city: "Nyíregyháza", subtitle: "Sóstó Zoo & Termy",
+    city: "Nyíregyháza", subtitle: "Sóstó Zoo & Aquarius & Termy",
     hotel: "Hotel Pangea ⭐⭐⭐⭐", duration: "2 dni",
-    description: "Nyíregyháza kryje jeden z największych i najpiękniejszych zoo w Europie Środkowej – Sóstó Zoo. Ponad 500 gatunków zwierząt żyje tu na ogromnych, naturalistycznych wybiegach. Orangutany, słonie afrykańskie, żyrafy, lemury i dziesiątki egzotycznych gatunków. Wieczorami relaks w słynnych termach Sóstó, gdzie kilkanaście basenów z gorącą wodą leczniczą pozwoli odpocząć po trasie.",
-    highlights: ["Sóstó Zoo – 500+ gatunków, wybiegi naturalistyczne","Orangutany i małpy człekokształtne – wolne wybiegi","Żyrafy i słonie afrykańskie w plenerze","Termy Sóstó – baseny termalne 35–38°C","Safari nocne – unikalne nocne zwiedzanie zoo","Stare Miasto Nyíregyháza – architektura secesyjna"],
-    tip: "Sóstó Zoo otwarte od 9:00. Bilety online – kolejki w sierpniu bywają długie. Karnet rodzinny 2+3 to duża oszczędność. Termy najlepiej wieczorem po zoo.",
+    description: "Nyíregyháza kryje jeden z największych i najpiękniejszych zoo w Europie Środkowej – Sóstó Zoo. Ponad 500 gatunków zwierząt żyje tu na ogromnych, naturalistycznych wybiegach. Orangutany, słonie afrykańskie, żyrafy, lemury i dziesiątki egzotycznych gatunków. Tuż obok – dosłownie 5 minut pieszo – czeka Aquarius Experience & Park Bath, jeden z najlepszych aquaparków wschodniej Europy. Wieczorami relaks w słynnych termach Sóstó.",
+    highlights: ["Sóstó Zoo – 500+ gatunków, wybiegi naturalistyczne","Orangutany i małpy człekokształtne – wolne wybiegi","Żyrafy i słonie afrykańskie w plenerze","Aquarius Park Bath – aquapark 5 min pieszo od zoo","Termy Sóstó – baseny termalne 35–38°C","Safari nocne – unikalne nocne zwiedzanie zoo"],
+    tip: "Sóstó Zoo otwarte od 9:00. Bilety online – kolejki w sierpniu bywają długie. Karnet rodzinny 2+3 to duża oszczędność. Plan: Zoo rano → Aquarius po południu → Termy wieczorem.",
+    aquapark: {
+      name: "Aquarius Experience & Park Bath",
+      tagline: "Najlepszy aquapark wschodniej Węgier — idealnie połączony z zoo",
+      distance: "5–10 min pieszo od Sóstó Zoo",
+      features: [
+        "Zjeżdżalnia Kamikaze – ekstremalne opadanie pionowe",
+        "Black Hole – zjeżdżalnia w całkowitej ciemności",
+        "Family Slides & Race – wyścigi na zjeżdżalniach",
+        "Elephant Slide – strefa dla najmłodszych",
+        "Wave Pool – sztuczne fale jak na morzu",
+        "Wild River – rwący nurt, prąd wodny",
+        "Baseny termalne – część Aquarius Experience Bath",
+        "Inca Temple Theme – strefa tematyczna",
+        "Część indoor czynna cały rok (nawet w deszcz)",
+      ],
+      tip: "Aquarius działa w sezonie letnim (Czerwiec–Wrzesień). Część indoor (Aquarius Bath) czynna cały rok. Bilet łączony Zoo + Aquarius to duża oszczędność. Idealna kolejność: Zoo (9–13) → obiad → Aquarius (14–19) → Termy wieczorem.",
+    },
     photos: [
       { url: u("zoo giraffe africa savanna natural habitat wildlife"), caption: "Żyrafy na naturalnym wybiegu" },
       { url: u("orangutan primate jungle zoo great ape"), caption: "Orangutany – wolny wybieg" },
@@ -71,11 +96,27 @@ const stops: Stop[] = [
   },
   {
     day: "Dzień 6–7", dayRange: "15–16.08.2026", country: "Rumunia", flag: "🇷🇴",
-    city: "Braszów", subtitle: "Zamek Bran & Twierdza Râșnov",
+    city: "Braszów", subtitle: "Zamek Bran, Râșnov & Aquapark",
     hotel: "Kronwell Brasov ⭐⭐⭐⭐", duration: "1 dzień zwiedzania",
-    description: "Braszów to gotyckie serce Transylwanii – miasto założone przez Krzyżaków w XIII wieku. Zamek Bran wznosi się dramatycznie na skale, strzeżąc przełęczy karpackiej i wzbudza nieodpartą atmosferę grozy. Twierdza Râșnov to średniowieczna cytadela górująca 200 m nad miastem, jedna z najlepiej zachowanych twierdz obronnych Rumunii. Czarny Kościół gotycki i urocze centrum Braszowa zamykają dzień pełen wrażeń.",
-    highlights: ["Zamek Bran – gotycka forteca na skale, symbol Transylwanii","Twierdza Râșnov – XIV-wieczna cytadela, widoki 360°","Braszów Stare Miasto – Czarny Kościół gotycki z XIV w.","Kolejka linowa na szczyt Tampa (960 m)","Ulica Ulita Sfori – jedna z najwęższych ulic Europy","Kolacja transylwańska w centrum Braszowa"],
-    tip: "Zamek Bran zamknięty w poniedziałek. Twierdza Râșnov jest 20 min drogi – idealne połączenie. Kolejka na Tampa działa do 20:00. Zarezerwuj stolik na kolację z wyprzedzeniem.",
+    description: "Braszów to gotyckie serce Transylwanii – miasto założone przez Krzyżaków w XIII wieku. Zamek Bran wznosi się dramatycznie na skale, strzeżąc przełęczy karpackiej i wzbudza nieodpartą atmosferę grozy. Twierdza Râșnov to średniowieczna cytadela górująca 200 m nad miastem, jedna z najlepiej zachowanych twierdz obronnych Rumunii. Po górskim zwiedzaniu wieczorny relaks w Paradisul Acvatic – największym kompleksie wodnym Rumunii, tuż przy hotelu.",
+    highlights: ["Zamek Bran – gotycka forteca na skale, symbol Transylwanii","Twierdza Râșnov – XIV-wieczna cytadela, widoki 360°","Braszów Stare Miasto – Czarny Kościół gotycki z XIV w.","Paradisul Acvatic – relaks po górskim dniu (opcja)","Kolejka linowa na szczyt Tampa (960 m)","Ulica Ulita Sfori – jedna z najwęższych ulic Europy"],
+    tip: "Zamek Bran zamknięty w poniedziałek. Twierdza Râșnov jest 20 min drogi – idealne połączenie. Aquapark Paradisul Acvatic to świetna opcja na deszczowe popołudnie w Transylwanii.",
+    aquapark: {
+      name: "Paradisul Acvatic – Aquatic Paradise Brașov",
+      tagline: "Jeden z największych kompleksów wodnych Rumunii — opcja na relaks po górach",
+      distance: "10–15 min od centrum Brașova / Kronwell Brasov",
+      features: [
+        "Baseny zewnętrzne i wewnętrzne (czynne cały rok)",
+        "Zjeżdżalnie indoor i outdoor – kamikaze, family, speed",
+        "Wave Pool – basen z falami",
+        "Strefa dla dzieci z małymi zjeżdżalniami",
+        "Olimpijski basen – 50 m, dla aktywnych",
+        "Sauny i strefa wellness",
+        "Kawiarnia i restauracja na terenie kompleksu",
+        "Świetna opcja na deszczowy dzień w Transylwanii",
+      ],
+      tip: "Paradisul Acvatic czynny cały rok (duża część indoor). Ceny ~50–80 RON. Idealne po całym dniu w Zamku Bran i Râșnov – wieczorny relaks w ciepłej wodzie. Parking bezpłatny.",
+    },
     photos: [
       { url: u("bran castle transylvania romania dracula gothic medieval"), caption: "Zamek Bran – gotycka twierdza" },
       { url: u("bran castle romania tower medieval architecture"), caption: "Wieże zamku Bran" },
@@ -109,11 +150,27 @@ const stops: Stop[] = [
   },
   {
     day: "Dzień 10–13", dayRange: "19–22.08.2026", country: "Grecja", flag: "🇬🇷",
-    city: "Saloniki", subtitle: "Meteory & Olimp",
+    city: "Saloniki", subtitle: "Meteory, Olimp & Waterland",
     hotel: "Lazart Hotel ⭐⭐⭐⭐", duration: "4 dni",
-    description: "Saloniki – drugie co do wielkości miasto Grecji, tętniące życiem na styku historii i nowoczesności. Baza wypadowa do dwóch niezwykłych miejsc: Meteorów – skał z zawieszonymi klasztorami (UNESCO), gdzie mnisi żyli dosłownie nad przepaścią. I Olimpu – najwyższej góry Grecji, mitycznego domu bogów. Saloniki zachwycają Białą Wieżą, wczesnochrześcijańskimi bazylikami i słynną kuchnią.",
-    highlights: ["Meteory – 6 klasztorów na pionowych skałach (UNESCO)","Wielkie Meteory – największy i najstarszy monastyr","Olimp – Mytikas 2918 m, mityczna góra bogów","Saloniki Biała Wieża – symbol miasta","Saloniki Rotunda i Agora Rzymska – starożytność","Thessaloniki Food Tour – ouzo, bougatsa, souvlaki"],
-    tip: "Meteory najlepiej rano przed 10:00 lub wieczorem. Każdy klasztor ma inny dzień zamknięcia – sprawdź harmonogram. Olimp: wejście na Mytikas wymaga co najmniej 8 godzin.",
+    description: "Saloniki – drugie co do wielkości miasto Grecji, tętniące życiem na styku historii i nowoczesności. Baza wypadowa do dwóch niezwykłych miejsc: Meteorów – skał z zawieszonymi klasztorami (UNESCO), gdzie mnisi żyli dosłownie nad przepaścią. I Olimpu – najwyższej góry Grecji, mitycznego domu bogów. Saloniki zachwycają Białą Wieżą, wczesnochrześcijańskimi bazylikami i słynną kuchnią. A na jeden dzień – największy aquapark północnej Grecji tuż za miastem.",
+    highlights: ["Meteory – 6 klasztorów na pionowych skałach (UNESCO)","Wielkie Meteory – największy i najstarszy monastyr","Olimp – Mytikas 2918 m, mityczna góra bogów","Waterland Thessaloniki – największy aquapark Grecji Płn.","Saloniki Biała Wieża – symbol miasta","Thessaloniki Food Tour – ouzo, bougatsa, souvlaki"],
+    tip: "Meteory najlepiej rano przed 10:00 lub wieczorem. Każdy klasztor ma inny dzień zamknięcia – sprawdź harmonogram. Olimp: wejście na Mytikas wymaga co najmniej 8 godzin. Waterland – Czerwiec do Września.",
+    aquapark: {
+      name: "Waterland Thessaloniki",
+      tagline: "Największy aquapark Grecji Północnej — 150 000 m² atrakcji wodnych",
+      distance: "15–20 min autem od centrum Salonik / Lazart Hotel",
+      features: [
+        "150 000 m² atrakcji – największy aquapark w Płn. Grecji",
+        "Kamikaze & Tower slides – najwyższe zjeżdżalnie w Grecji",
+        "Lazy River – relaksujący spływ w kręgu",
+        "Wave Pool – ogromny basen z falami",
+        "Multi Slide Racer – wyścigi na zjeżdżalniach",
+        "Strefa dziecięca z małymi zjeżdżalniami i brodzik",
+        "Restaurants & snack bars – gastronomia na terenie parku",
+        "Otwarte Czerwiec–Wrzesień – idealne na sierpniowe lato",
+      ],
+      tip: "Waterland czynny Jun–Sep, godziny 10:00–19:00. Bilety ~25–35 EUR dorośli, dzieci taniej. Dojedź autem z Salonik (parking bezpłatny). Idealne na dzień relaksu między Meteorami a Pelionem.",
+    },
     photos: [
       { url: u("meteora greece monastery rocks orthodox cliff vertical"), caption: "Meteory – klasztory nad przepaścią" },
       { url: u("meteora greece landscape pillars rocks sunrise mist"), caption: "Skaliste iglice Meteorów o świcie" },
@@ -358,6 +415,33 @@ export function RoutePreview() {
                   ))}
                 </ul>
               </div>
+
+              {/* AQUAPARK SECTION */}
+              {stop.aquapark && (
+                <div className="rounded-xl border border-cyan-500/30 bg-cyan-500/5 overflow-hidden">
+                  <div className="flex items-center gap-2 px-4 py-2.5 border-b border-cyan-500/15 bg-cyan-500/8">
+                    <Waves size={14} className="text-cyan-400" />
+                    <span className="text-cyan-400 text-xs uppercase tracking-widest font-semibold">Aquapark</span>
+                    <span className="ml-auto text-xs text-cyan-400/50 font-medium">{stop.aquapark.distance}</span>
+                  </div>
+                  <div className="px-4 py-3 space-y-2.5">
+                    <div>
+                      <p className="text-white font-semibold text-sm">{stop.aquapark.name}</p>
+                      <p className="text-cyan-400/70 text-xs mt-0.5">{stop.aquapark.tagline}</p>
+                    </div>
+                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-3 gap-y-1">
+                      {stop.aquapark.features.map((f, i) => (
+                        <li key={i} className="flex items-start gap-1.5 text-xs text-white/65">
+                          <span className="text-cyan-400 shrink-0 mt-0.5">›</span>{f}
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="rounded-lg bg-cyan-500/10 border border-cyan-500/20 px-3 py-2">
+                      <p className="text-cyan-300/70 text-xs leading-relaxed">{stop.aquapark.tip}</p>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               <div className="rounded-xl border border-primary/25 bg-primary/5 px-4 py-3">
                 <p className="text-primary text-xs uppercase tracking-widest font-semibold mb-1 flex items-center gap-1.5">
