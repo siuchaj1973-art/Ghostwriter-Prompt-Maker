@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Search, X, Plus, Check, ChevronUp, ChevronDown, Trash2, RotateCcw,
@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import {
   ATTRACTIONS, CATEGORIES, DEFAULT_ROUTE, attractionById, hotelById,
-  categoryMeta, type Attraction, type Category,
+  categoryMeta, routeDistanceKm, type Attraction, type Category,
 } from "@/data/trip";
 import { RouteMap } from "./route-map";
 import { exportRoutePdf } from "@/lib/pdf";
@@ -23,13 +23,36 @@ function CatIcon({ name, ...props }: { name: string } & React.ComponentProps<Luc
   return <Cmp {...props} />;
 }
 
+const STORAGE_KEY = "pb2026-route";
+
+function loadRoute(): string[] {
+  if (typeof window === "undefined") return DEFAULT_ROUTE;
+  try {
+    const raw = window.localStorage.getItem(STORAGE_KEY);
+    if (!raw) return DEFAULT_ROUTE;
+    const ids = (JSON.parse(raw) as string[]).filter((id) => attractionById(id));
+    return ids.length ? ids : DEFAULT_ROUTE;
+  } catch {
+    return DEFAULT_ROUTE;
+  }
+}
+
 export function Planner() {
   const [query, setQuery] = useState("");
   const [cat, setCat] = useState<Category | "all">("all");
-  const [route, setRoute] = useState<string[]>(DEFAULT_ROUTE);
+  const [route, setRoute] = useState<string[]>(loadRoute);
   const [previewId, setPreviewId] = useState<string>(DEFAULT_ROUTE[0]);
   const [photoIdx, setPhotoIdx] = useState(0);
   const [lightbox, setLightbox] = useState<string | null>(null);
+
+  // Zapamiętaj ułożoną trasę między sesjami przeglądarki.
+  useEffect(() => {
+    try {
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(route));
+    } catch {
+      /* localStorage niedostępny — pomiń */
+    }
+  }, [route]);
 
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -66,7 +89,7 @@ export function Planner() {
   const stats = useMemo(() => {
     const stops = route.map(attractionById).filter(Boolean) as Attraction[];
     const countries = new Set(stops.map((s) => s.country));
-    return { stops: stops.length, countries: countries.size };
+    return { stops: stops.length, countries: countries.size, km: routeDistanceKm(route) };
   }, [route]);
 
   return (
@@ -326,7 +349,7 @@ export function Planner() {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-px bg-white/5 text-center">
+            <div className="grid grid-cols-3 gap-px bg-white/5 text-center">
               <div className="bg-card/60 py-2.5">
                 <p className="text-xl font-serif text-primary">{stats.stops}</p>
                 <p className="text-white/40 text-[11px] uppercase tracking-wider">Przystanki</p>
@@ -334,6 +357,10 @@ export function Planner() {
               <div className="bg-card/60 py-2.5">
                 <p className="text-xl font-serif text-primary">{stats.countries}</p>
                 <p className="text-white/40 text-[11px] uppercase tracking-wider">Kraje</p>
+              </div>
+              <div className="bg-card/60 py-2.5">
+                <p className="text-xl font-serif text-primary">~{stats.km}</p>
+                <p className="text-white/40 text-[11px] uppercase tracking-wider">km</p>
               </div>
             </div>
 

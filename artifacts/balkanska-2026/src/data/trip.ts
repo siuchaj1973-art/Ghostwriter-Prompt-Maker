@@ -744,6 +744,33 @@ export const HOTELS: Hotel[] = [
 
 /* ── Pomocnicze ─────────────────────────────────────────────────────────── */
 
+/** Odległość po ortodromie (haversine) między dwoma punktami, w km. */
+export function haversineKm(
+  a: { lat: number; lng: number },
+  b: { lat: number; lng: number },
+): number {
+  const R = 6371;
+  const dLat = ((b.lat - a.lat) * Math.PI) / 180;
+  const dLng = ((b.lng - a.lng) * Math.PI) / 180;
+  const la1 = (a.lat * Math.PI) / 180;
+  const la2 = (b.lat * Math.PI) / 180;
+  const h =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(la1) * Math.cos(la2) * Math.sin(dLng / 2) ** 2;
+  return 2 * R * Math.asin(Math.sqrt(h));
+}
+
+/**
+ * Szacunkowa długość trasy w km — suma odcinków między kolejnymi
+ * przystankami po ortodromie, z narzutem 1.3 na rzeczywisty przebieg dróg.
+ */
+export function routeDistanceKm(ids: string[]): number {
+  const pts = ids.map(attractionById).filter(Boolean) as Attraction[];
+  let sum = 0;
+  for (let i = 1; i < pts.length; i++) sum += haversineKm(pts[i - 1], pts[i]);
+  return Math.round((sum * 1.3) / 10) * 10;
+}
+
 export function attractionById(id: string): Attraction | undefined {
   return ATTRACTIONS.find((a) => a.id === id);
 }
