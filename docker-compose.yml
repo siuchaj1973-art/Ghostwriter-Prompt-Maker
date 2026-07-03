@@ -1,0 +1,13 @@
+services:
+  balkanska:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        # ścieżka bazowa zasobów; "/" dla roota domeny
+        BASE_PATH: /
+    image: balkanska-2026:latest
+    container_name: balkanska-2026
+    ports:
+      - "8080:80"
+    restart: unless-stopped
