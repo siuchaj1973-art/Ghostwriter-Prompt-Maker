@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, Hotel, Clock, MapPin, Lightbulb, X, ZoomIn, Image, Waves } from "lucide-react";
+import { commons, type Photo } from "@/lib/media";
 
-interface Photo { url: string; caption: string }
 interface Aquapark {
   name: string;
   tagline: string;
@@ -18,12 +18,7 @@ interface Stop {
   aquapark?: Aquapark;
 }
 
-// Verified working Unsplash CDN photo IDs (all return HTTP 200)
-const p = (id: string, caption: string): Photo => ({
-  url: `https://images.unsplash.com/${id}?w=1200&q=85&fit=crop`,
-  caption,
-});
-
+// Wszystkie zdjęcia to prawdziwe fotografie danej atrakcji (Wikimedia Commons).
 const stops: Stop[] = [
   {
     day: "Dzień 1", dayRange: "10.08.2026", country: "Polska", flag: "🇵🇱",
@@ -33,18 +28,14 @@ const stops: Stop[] = [
     highlights: [
       "Przygotowanie Cadillaca Escalade ESV do 3500 km trasy",
       "Rynek w Krośnie – zabytkowa starówka z XV wieku",
-      "Muzeum Podkarpackie i Muzeum Szkła Artystycznego",
+      "Muzeum Podkarpackie i Centrum Dziedzictwa Szkła",
       "Bieszczady – ostatni akcent polskiego krajobrazu",
       "Ostatnia polska kolacja przed wyruszeniem",
     ],
     tip: "Zatankuj do pełna w Polsce – paliwo za granicą jest droższe. Sprawdź ciśnienie w oponach i stan oleju w Escaladzie. Zabierz winiety na Słowację i Węgry.",
     photos: [
-      p("photo-1434626881859-194d67b2b86f", "Karpaty – początek drogi na południe"),
-      p("photo-1486325212027-8081e485255e", "Droga przez polskie lasy"),
-      p("photo-1464822759023-fed622ff2c3b", "Górski krajobraz przed wyruszeniem"),
-      p("photo-1426604966848-d7adac402bff", "Leśna trasa przez Podkarpacie"),
-      p("photo-1469474968028-56623f02e42e", "Wschód słońca w Karpatach"),
-      p("photo-1501854140801-50d01698950b", "Alpejski krajobraz – zapowiedź trasy"),
+      commons("Krosno-Market Square-Panorama-03.JPG", "Rynek w Krośnie – renesansowe podcienia"),
+      commons("Krosno - market square (by Pudelek).JPG", "Kamienice przy krośnieńskim rynku"),
     ],
   },
   {
@@ -63,7 +54,7 @@ const stops: Stop[] = [
     tip: "Sóstó Zoo otwarte od 9:00. Bilety online – kolejki w sierpniu bywają długie. Karnet rodzinny 2+3 to duża oszczędność. Plan: Zoo rano → Aquarius po południu → Termy wieczorem.",
     aquapark: {
       name: "Aquarius Experience & Park Bath",
-      tagline: "Najlepszy aquapark wschodniej Węgier — idealnie połączony z zoo",
+      tagline: "Najlepszy aquapark wschodnich Węgier — idealnie połączony z zoo",
       distance: "5–10 min pieszo od Sóstó Zoo",
       features: [
         "Zjeżdżalnia Kamikaze – ekstremalne opadanie pionowe",
@@ -79,55 +70,44 @@ const stops: Stop[] = [
       tip: "Aquarius działa w sezonie letnim (Czerwiec–Wrzesień). Część indoor (Aquarius Bath) czynna cały rok. Bilet łączony Zoo + Aquarius to duża oszczędność. Idealna kolejność: Zoo (9–13) → obiad → Aquarius (14–19) → Termy wieczorem.",
     },
     photos: [
-      p("photo-1474511320723-9a56873867b5", "Żyrafa – naturalistyczny wybieg w Sóstó Zoo"),
-      p("photo-1564349683136-77e08dba1ef7", "Egzotyczne zwierzęta w zoo"),
-      p("photo-1602491453631-e2a5ad90a131", "Atrakcje zoo – bliskie spotkanie ze zwierzętami"),
-      p("photo-1530103862676-de8c9debad1d", "Aquarius Park Bath – zjeżdżalnie wodne"),
-      p("photo-1568605114967-8130f3a36994", "Wesołe zabawy w aquaparku"),
-      p("photo-1523292562811-8fa7962a78c8", "Baseny i zjeżdżalnie wodne"),
-      p("photo-1571019613454-1cb2f99b2d8b", "Termy Sóstó – relaks w ciepłej wodzie"),
-      p("photo-1544161513-0179fe746fd5", "Baseny termalne – wieczorny odpoczynek"),
+      commons("Omnia Sóstó Gelateria, 2017 Sóstógyógyfürdő.jpg", "Sóstógyógyfürdő – kurort z zoo, aquaparkiem i termami"),
     ],
   },
   {
     day: "Dzień 4–5", dayRange: "13–14.08.2026", country: "Rumunia", flag: "🇷🇴",
-    city: "Sibiu & Transfăgărășan", subtitle: "Legendarny Przełęcz Karpat",
+    city: "Sibiu & Transfăgărășan", subtitle: "Legendarna Przełęcz Karpat",
     hotel: "Hilton Sibiu ⭐⭐⭐⭐⭐", duration: "1 dzień na trasie",
-    description: "Transfăgărășan – jedna z najbardziej spektakularnych dróg świata. 90 km serpentyn wspinających się przez Karpaty Południowe na wysokość 2042 m n.p.m. Jeremy Clarkson nazwał ją najlepszą drogą na świecie. Punkt kulminacyjny to Przełęcz Balea Lac z szmaragdowym jeziorem górskim i wiecznym śniegiem. Jezioro Vidraru i zamek Poenari – prawdziwa siedziba Vlada Palownika – uzupełniają ten niezapomniany dzień. Sibiu, zwane Małym Paryżem, czeka na koniec dnia z winem i kolacją.",
+    description: "Transfăgărășan – jedna z najbardziej spektakularnych dróg świata. 90 km serpentyn wspinających się przez Karpaty Południowe na wysokość 2042 m n.p.m. Jeremy Clarkson nazwał ją najlepszą drogą na świecie. Punkt kulminacyjny to Przełęcz Bâlea Lac z szmaragdowym jeziorem górskim i wiecznym śniegiem. Jezioro Vidraru i zamek Poenari – prawdziwa siedziba Vlada Palownika – uzupełniają ten niezapomniany dzień. Sibiu, zwane Małym Paryżem, czeka na koniec dnia z winem i kolacją.",
     highlights: [
       "Transfăgărășan – 90 km serpentyn przez Karpaty Południowe",
-      "Przełęcz Balea Lac (2034 m) – górskie jezioro ze śniegiem",
-      "Jezioro Vidraru – ogromna zapora na rzece Ardgeş",
+      "Przełęcz Bâlea Lac (2034 m) – górskie jezioro ze śniegiem",
+      "Jezioro Vidraru – ogromna zapora na rzece Argeș",
       "Zamek Poenari – ruiny prawdziwego zamku Drakuli",
-      "Sibiu Stare Miasto – Piata Mare z budynkami-oczami",
+      "Sibiu Stare Miasto – Piața Mare z domami-oczami",
       "Hilton Sibiu – luksusowy nocleg w centrum",
     ],
     tip: "Transfăgărășan otwarta od ok. 1 lipca do końca października. Wyrusz przed 8:00 – popołudnie jest zatłoczone. Na przełęczy może być o 15°C zimniej – weź kurtkę!",
     photos: [
-      p("photo-1513104890138-7c749659a591", "Transfăgărășan – słynne serpentyny przez Karpaty"),
-      p("photo-1501854140801-50d01698950b", "Alpejskie szczyty nad Transfăgărășan"),
-      p("photo-1448375240586-882707db888b", "Górskie jezioro – Balea Lac na przełęczy"),
-      p("photo-1454496522488-7a8e488e8606", "Zaśnieżone szczyty Karpat Południowych"),
-      p("photo-1518173946687-a4c8892bbd9f", "Rzeka Argeş – dolina u stóp Transfăgărășan"),
-      p("photo-1504701954957-2010ec3bcec1", "Głęboki wąwóz rzeki karpackiej"),
-      p("photo-1515542622106-78bda8ba0e5b", "Sibiu – gotyckie centrum historyczne"),
-      p("photo-1558642084-fd07fae5282e", "Sibiu – Wielki Plac z budynkami-oczami"),
-      p("photo-1564507592333-c60657eea523", "Zamek Poenari – ruiny twierdzy Vlada Palownika"),
-      p("photo-1464822759023-fed622ff2c3b", "Panorama Karpat Południowych"),
+      commons("Transfagarasan-north.JPG", "Transfăgărășan – słynne północne serpentyny"),
+      commons("Transfagarasean.JPG", "Widok z góry na wstęgę Transfăgărășan"),
+      commons("Poenari Castle in Romania.jpg", "Zamek Poenari – prawdziwa siedziba Vlada Palownika"),
+      commons("Cetatea Poenari - vedere principala.JPG", "Ruiny twierdzy Poenari nad doliną Argeș"),
+      commons("Sibiu (Hermannstadt, Nagyszeben) - Large Square (Piața Mare, Großer Ring).jpg", "Sibiu – Piața Mare"),
+      commons("Centrul Istoric Sibiu - Piata Mare.jpg", "Historyczne centrum Sibiu"),
     ],
   },
   {
     day: "Dzień 6–7", dayRange: "15–16.08.2026", country: "Rumunia", flag: "🇷🇴",
     city: "Braszów", subtitle: "Zamek Bran, Râșnov & Aquapark",
     hotel: "Kronwell Brasov ⭐⭐⭐⭐", duration: "1 dzień zwiedzania",
-    description: "Braszów to gotyckie serce Transylwanii – miasto założone przez Krzyżaków w XIII wieku. Zamek Bran wznosi się dramatycznie na skale, strzeżąc przełęczy karpackiej i wzbudza nieodpartą atmosferę grozy. Twierdza Râșnov to średniowieczna cytadela górująca 200 m nad miastem, jedna z najlepiej zachowanych twierdz obronnych Rumunii. Po górskim zwiedzaniu wieczorny relaks w Paradisul Acvatic – największym kompleksie wodnym Rumunii, tuż przy hotelu.",
+    description: "Braszów to gotyckie serce Transylwanii – miasto założone przez Krzyżaków w XIII wieku. Zamek Bran wznosi się dramatycznie na skale, strzegąc przełęczy karpackiej i wzbudza nieodpartą atmosferę grozy. Twierdza Râșnov to średniowieczna cytadela górująca 200 m nad miastem, jedna z najlepiej zachowanych twierdz obronnych Rumunii. Po górskim zwiedzaniu wieczorny relaks w Paradisul Acvatic – największym kompleksie wodnym Rumunii, tuż przy hotelu.",
     highlights: [
       "Zamek Bran – gotycka forteca na skale, symbol Transylwanii",
       "Twierdza Râșnov – XIV-wieczna cytadela, widoki 360°",
       "Braszów Stare Miasto – Czarny Kościół gotycki z XIV w.",
       "Paradisul Acvatic – relaks po górskim dniu (opcja)",
-      "Kolejka linowa na szczyt Tampa (960 m)",
-      "Ulica Ulita Sfori – jedna z najwęższych ulic Europy",
+      "Kolejka linowa na szczyt Tâmpa (960 m)",
+      "Ulica Sznurkowa – jedna z najwęższych ulic Europy",
     ],
     tip: "Zamek Bran zamknięty w poniedziałek. Twierdza Râșnov jest 20 min drogi – idealne połączenie. Aquapark Paradisul Acvatic to świetna opcja na deszczowe popołudnie w Transylwanii.",
     aquapark: {
@@ -147,41 +127,35 @@ const stops: Stop[] = [
       tip: "Paradisul Acvatic czynny cały rok (duża część indoor). Ceny ~50–80 RON. Idealne po całym dniu w Zamku Bran i Râșnov – wieczorny relaks w ciepłej wodzie. Parking bezpłatny.",
     },
     photos: [
-      p("photo-1527838832700-5059252407fa", "Zamek Bran – gotycka forteca Transylwanii"),
-      p("photo-1580537659466-0a9bfa916a54", "Mroczna atmosfera zamku w Transylwanii"),
-      p("photo-1564507592333-c60657eea523", "Twierdza Râșnov górująca nad miastem"),
-      p("photo-1533929736458-ca588d08c8be", "Gotyckie łuki i mury obronne"),
-      p("photo-1541849546-216549ae216d", "Stare Miasto Braszów – barokowy plac"),
-      p("photo-1515542622106-78bda8ba0e5b", "Historyczna architektura centrum Braszowa"),
-      p("photo-1544735716-392fe2489ffa", "Lasy Karpat Wschodnich wokół Braszowa"),
-      p("photo-1571406252241-db0280bd36cd", "Gotycki kościół w centrum Transylwanii"),
-      p("photo-1520250497591-112f2f40a3f4", "Paradisul Acvatic – relaks po górskim dniu"),
+      commons("Bran Castle (23714307153).jpg", "Zamek Bran – gotycka forteca Transylwanii"),
+      commons("Bran Castle (Dracula's Castle) 1.jpg", "Zamek Bran wznoszący się na skale"),
+      commons("Bran Castle - Castelul Bran.JPG", "Castelul Bran – symbol Transylwanii"),
+      commons("Cetatea Rasnov si orasul.JPG", "Twierdza Râșnov górująca nad miastem"),
+      commons("Cetatea rasnov exterior.jpg", "Mury cytadeli Râșnov"),
+      commons("Piata Sfatului in Council Square, Brasov, Romania.jpg", "Braszów – Piața Sfatului"),
+      commons("Black Church Brasov.jpg", "Czarny Kościół w Braszowie"),
     ],
   },
   {
     day: "Dzień 8–9", dayRange: "17–18.08.2026", country: "Bułgaria", flag: "🇧🇬",
     city: "Bansko", subtitle: "Monastyr Rylski & Kempinski SPA",
     hotel: "Kempinski Bansko ⭐⭐⭐⭐⭐", duration: "1 dzień + SPA wieczorem",
-    description: "Monastyr Rylski – najświętsze miejsce Bułgarii, wpisane na listę UNESCO. Założony w X wieku przez św. Joanna Rylskiego. Freski pokrywające każdy centymetr dziedzińca to arcydzieło ikonografii bałkańskiej. Wąwóz Rilska prowadzący do klasztoru to jeden z piękniejszych widoków Bułgarii. Wieczorami odpoczynek w luksusowym Kempinski Bansko – pięciogwiazdkowym resorcie z SPA, saunami i basenami u stóp Rodopów.",
+    description: "Monastyr Rylski – najświętsze miejsce Bułgarii, wpisane na listę UNESCO. Założony w X wieku przez św. Jana Rylskiego. Freski pokrywające każdy centymetr dziedzińca to arcydzieło ikonografii bałkańskiej. Wąwóz Rilska prowadzący do klasztoru to jeden z piękniejszych widoków Bułgarii. Wieczorami odpoczynek w luksusowym Kempinski Bansko – pięciogwiazdkowym resorcie z SPA, saunami i basenami u stóp Pirinu.",
     highlights: [
       "Monastyr Rylski – UNESCO, X wiek, centrum duchowe Bułgarii",
       "Freski z XIX w. – tysiące malowideł i ikon na dziedzińcu",
-      "Gorge Rilska – malowniczy wąwóz przy klasztorze",
+      "Wąwóz Rilska – malowniczy wąwóz przy klasztorze",
       "Kempinski Bansko SPA – baseny, sauny, masaże premium",
       "Bansko centrum – XVIII-wieczne kamienne domy",
-      "Muzeum Neofit Rilski w miasteczku Bansko",
+      "Muzeum Neofita Rilskiego w miasteczku Bansko",
     ],
     tip: "Monastyr Rylski czynny 8:00–20:00, wstęp bezpłatny. Zakryte ramiona i kolana (obowiązkowe). Odległość z Bansko ok. 60 km górską drogą. Wróć na SPA przed 17:00.",
     photos: [
-      p("photo-1544551763-46a013bb70d5", "Monastyr Rylski – arcydzieło bułgarskiego baroku"),
-      p("photo-1571406252241-db0280bd36cd", "Freski i ikony klasztoru Rylskiego"),
-      p("photo-1558642084-fd07fae5282e", "Brukowane uliczki Bansko – XVIII-wieczne domy"),
-      p("photo-1518173946687-a4c8892bbd9f", "Wąwóz Rilska prowadzący do klasztoru"),
-      p("photo-1504701954957-2010ec3bcec1", "Rzeka górska w Górach Riła"),
-      p("photo-1544735716-392fe2489ffa", "Lasy Rodopów otaczające klasztor"),
-      p("photo-1501854140801-50d01698950b", "Szczyty Gór Riła – krajobraz UNESCO"),
-      p("photo-1571019613454-1cb2f99b2d8b", "Kempinski Bansko SPA – baseny premium"),
-      p("photo-1520250497591-112f2f40a3f4", "Luksusowy relaks w resorcie Kempinski"),
+      commons("Rila Monastery (Рилски манастир) - by Pudelek.JPG", "Monastyr Rylski – pasiaste arkady dziedzińca"),
+      commons("Rila Monastery Easter Night 01.JPG", "Dziedziniec klasztoru Rylskiego"),
+      commons("Religious fresco in Rila Monastery.jpg", "Freski klasztoru Rylskiego"),
+      commons("Pirin Street in Bansko (48867823688).jpg", "Kamienna uliczka w Bansko"),
+      commons("Pirin-mountains-Bansko.jpg", "Góry Pirin nad Bansko"),
     ],
   },
   {
@@ -190,8 +164,8 @@ const stops: Stop[] = [
     hotel: "Lazart Hotel ⭐⭐⭐⭐", duration: "4 dni",
     description: "Saloniki – drugie co do wielkości miasto Grecji, tętniące życiem na styku historii i nowoczesności. Baza wypadowa do dwóch niezwykłych miejsc: Meteorów – skał z zawieszonymi klasztorami (UNESCO), gdzie mnisi żyli dosłownie nad przepaścią. I Olimpu – najwyższej góry Grecji, mitycznego domu bogów. Saloniki zachwycają Białą Wieżą, wczesnochrześcijańskimi bazylikami i słynną kuchnią. A na jeden dzień – największy aquapark północnej Grecji tuż za miastem.",
     highlights: [
-      "Meteory – 6 klasztorów na pionowych skałach (UNESCO)",
-      "Wielkie Meteory – największy i najstarszy monastyr",
+      "Meteory – klasztory na pionowych skałach (UNESCO)",
+      "Wielki Meteor – największy i najstarszy monastyr",
       "Olimp – Mytikas 2918 m, mityczna góra bogów",
       "Waterland Thessaloniki – największy aquapark Grecji Płn.",
       "Saloniki Biała Wieża – symbol miasta",
@@ -215,116 +189,94 @@ const stops: Stop[] = [
       tip: "Waterland czynny Jun–Sep, godziny 10:00–19:00. Bilety ~25–35 EUR dorośli, dzieci taniej. Dojedź autem z Salonik (parking bezpłatny). Idealne na dzień relaksu między Meteorami a Pelionem.",
     },
     photos: [
-      p("photo-1555993539-1732b0258235", "Meteory – monastyry zawieszone na pionowych skałach"),
-      p("photo-1541849546-216549ae216d", "Monastyry Meteorów – wschód słońca"),
-      p("photo-1544551763-46a013bb70d5", "Klasztor na skalnej iglicy – widok z dołu"),
-      p("photo-1533105079780-92b9be482077", "Grecka architektura – niebieskie kopuły"),
-      p("photo-1570077188670-e3a8d69ac5ff", "Greckie miasto nad morzem"),
-      p("photo-1575408264798-b50b252663e6", "Zachód słońca nad Zatoką Termajską"),
-      p("photo-1559827260-dc66d52bef19", "Morze Egejskie – widok z Salonik"),
-      p("photo-1464822759023-fed622ff2c3b", "Olimp – mityczna góra bogów"),
-      p("photo-1530103862676-de8c9debad1d", "Waterland Thessaloniki – atrakcje wodne"),
-      p("photo-1533929736458-ca588d08c8be", "Antyczne ruiny Salonik"),
+      commons("Greece meteora monasteries.JPG", "Meteory – monastyry zawieszone na skałach"),
+      commons("Meteora Main Monastery.jpg", "Wielki Meteor – największy monastyr"),
+      commons("Great Meteora Monastery (4694771100).jpg", "Klasztor Wielkiego Meteoru na skalnej iglicy"),
+      commons("Monastery of the Holy Trinity, Meteora 01.jpg", "Klasztor Świętej Trójcy nad przepaścią"),
+      commons("White Tower in Thessaloniki.jpg", "Biała Wieża w Salonikach"),
+      commons("The White Tower of Thessaloniki, Greece.jpg", "Nabrzeże Salonik z Białą Wieżą"),
+      commons("Mount Olimpus Mitikas Peak.jpg", "Szczyt Mytikas na Olimpie"),
+      commons("Mytikas.jpg", "Masyw Olimpu – mityczna góra bogów"),
     ],
   },
   {
     day: "Dzień 14–16", dayRange: "23–25.08.2026", country: "Grecja", flag: "🇬🇷",
     city: "Pelion", subtitle: "Ukryte Plaże & Wioski",
     hotel: "Valis Resort ⭐⭐⭐⭐⭐", duration: "3 dni relaksu",
-    description: "Pelion to mityczna kraina Centaurów – półwysep pełen zielonych lasów, kamiennych wiosek z archontiko i ukrytych plaż z turkusową wodą, do których można dotrzeć tylko pieszo lub łódką. Valis Resort to jeden z najpiękniejszych hoteli Grecji z nieskończonym basenem nad zatoką. Plaże Mylopotamos i Fakistra wygrywają w rankingach najpiękniejszych plaż Europy i mimo to pozostają prawie nieznane.",
+    description: "Pelion to mityczna kraina Centaurów – półwysep pełen zielonych lasów, kamiennych wiosek z archontiko i ukrytych plaż z turkusową wodą, do których można dotrzeć tylko pieszo lub łódką. Valis Resort to jeden z najpiękniejszych hoteli Grecji z nieskończonym basenem nad zatoką. Plaża Mylopotamos i wioski Makrinitsa oraz Damouchari wygrywają w rankingach najpiękniejszych miejsc Europy i mimo to pozostają kameralne.",
     highlights: [
-      "Plaża Mylopotamos – szmaragdowa woda, morskie jaskinie",
-      "Plaża Fakistra – dostępna tylko pieszo, niemal dzika",
-      "Portaria i Makrinitsa – kamienne wioski 1000 m n.p.m.",
+      "Plaża Mylopotamos – szmaragdowa woda, morska brama skalna",
+      "Makrinitsa – „Balkon Pelionu” z widokiem na Zatokę",
+      "Portaria i kamienne wioski archontiko 1000 m n.p.m.",
       "Damouchari – wioska rybacka, plener z Mamma Mia",
       "Valis Resort infinity pool nad Zatoką Pagazetyjską",
       "Rejs łódką do plaż dostępnych tylko od strony morza",
     ],
-    tip: "Do Mylopotamos schodzi się 30 min kamienną ścieżką – idź rano. Zabierz snorkeling – skały pełne ryb. Łódź z Horefto do Fakistra kosztuje ok. 10 EUR. Wino Malagousia z lokalnej winnicy.",
+    tip: "Do Mylopotamos schodzi się 10–15 min ścieżką – idź rano. Zabierz snorkeling – skały pełne ryb. Kawa na platanowym placu w Makrinitsie o zachodzie słońca to must.",
     photos: [
-      p("photo-1507525428034-b723cf961d3e", "Plaża Mylopotamos – szmaragdowa woda Pelionu"),
-      p("photo-1510414842594-a61c69b5ae57", "Turkusowa woda i białe kamyki"),
-      p("photo-1519046904884-53103b34b206", "Ukryta zatoczka Pelionu – cisza i błękit"),
-      p("photo-1559827260-dc66d52bef19", "Morze Egejskie u stóp klifów"),
-      p("photo-1520250497591-112f2f40a3f4", "Valis Resort – nieskończony basen nad zatoką"),
-      p("photo-1533105079780-92b9be482077", "Wioski Pelionu – kamienne archontiko"),
-      p("photo-1570077188670-e3a8d69ac5ff", "Tradycyjna wioska na klifie nad morzem"),
-      p("photo-1575408264798-b50b252663e6", "Zachód słońca nad Zatoką Pagazetyjską"),
-      p("photo-1544735716-392fe2489ffa", "Lasy aromatycznych ziół Pelionu"),
-      p("photo-1558642084-fd07fae5282e", "Damouchari – wioska rybacka Pelionu"),
+      commons("Beach Mylopotamos.jpg", "Plaża Mylopotamos ze skalną bramą"),
+      commons("Makrinitsa village in Volos Greece.jpg", "Makrinitsa nad Zatoką Pagazetyjską"),
+      commons("Makrinitsa6.JPG", "Kamienne uliczki Makrinitsy"),
     ],
   },
   {
     day: "Dzień 17", dayRange: "26.08.2026", country: "Bułgaria", flag: "🇧🇬",
-    city: "Tyrnowo", subtitle: "Twierdza Tsarevets",
+    city: "Tyrnowo", subtitle: "Twierdza Tsarewec",
     hotel: "Yantra Grand Hotel ⭐⭐⭐⭐", duration: "1 dzień",
-    description: "Wielkie Tyrnowo – dawna stolica Drugiego Carstwa Bułgarskiego z XII–XIV w., uważana za jedno z najpiękniejszych miast Bałkanów. Twierdza Tsarevets wznosi się nad rzeką Jantrą i każdy wieczór zamienia się w spektakl – pokaz świateł i muzyki opowiada historię bułgarskich carów. Wąskie uliczki dzielnicy Varosha, stary bazar Samovodska Charshia i wioska Arbanasi z XVII-wiecznymi kościołami dopełniają dzień.",
+    description: "Wielkie Tyrnowo – dawna stolica Drugiego Carstwa Bułgarskiego z XII–XIV w., uważana za jedno z najpiękniejszych miast Bałkanów. Twierdza Tsarewec wznosi się nad rzeką Jantrą i każdy wieczór zamienia się w spektakl – pokaz świateł i muzyki opowiada historię bułgarskich carów. Wąskie uliczki dzielnicy Warosza, stary bazar Samowodska Czarszija i wioska Arbanasi z XVII-wiecznymi kościołami dopełniają dzień.",
     highlights: [
-      "Twierdza Tsarevets – siedziba carów bułgarskich",
+      "Twierdza Tsarewec – siedziba carów bułgarskich",
       "Sound & Light Show – wieczorny pokaz świateł na murach",
-      "Samovodska Charshia – XIX-wieczny bazar rzemieślniczy",
+      "Samowodska Czarszija – XIX-wieczny bazar rzemieślniczy",
       "Panorama rzeki Jantry z murów obronnych",
       "Arbanasi – XVII-wieczna wioska, kościoły z freskami",
-      "Dzielnica Varosha – brukowane uliczki starówki",
+      "Dzielnica Warosza – brukowane uliczki starówki",
     ],
-    tip: "Sound and Light Show ok. 21:00–22:00, bilet ~10 BGN. Twierdza czynna 8:00–19:00, wejście ~5 EUR. Widok z murów o zachodzie słońca jest fenomenalny.",
+    tip: "Sound and Light Show ok. 21:00–22:00, bilet ~10 BGN. Twierdza czynna 8:00–19:00, wejście ~10 lv. Widok z murów o zachodzie słońca jest fenomenalny.",
     photos: [
-      p("photo-1527838832700-5059252407fa", "Twierdza Tsarevets – mury carów bułgarskich"),
-      p("photo-1564507592333-c60657eea523", "Wieże średniowiecznej fortecy"),
-      p("photo-1518173946687-a4c8892bbd9f", "Rzeka Jantry otaczająca twierdzę"),
-      p("photo-1504701954957-2010ec3bcec1", "Głęboki wąwóz rzeki Jantry"),
-      p("photo-1533929736458-ca588d08c8be", "Gotyckie łuki i wieże twierdzy"),
-      p("photo-1515542622106-78bda8ba0e5b", "Stare Miasto Tyrnowo na skarpie"),
-      p("photo-1580537659466-0a9bfa916a54", "Mroczna atmosfera średniowiecznych murów"),
-      p("photo-1519681393784-d120267933ba", "Twierdza nocą – pokaz świateł"),
+      commons("Veliko Tarnovo (Велико Търново) - Tsarevets.JPG", "Twierdza Tsarewec nad Jantrą"),
+      commons("Fortress at Veliko Tarnovo.JPG", "Mury Tsarewec w Wielkim Tyrnowie"),
+      commons("Baldwin's Tower of Tsarevets.JPG", "Wieża Baldwina na Tsarewec"),
     ],
   },
   {
     day: "Dzień 18", dayRange: "27.08.2026", country: "Rumunia", flag: "🇷🇴",
     city: "Turda", subtitle: "Salina Turda – Podziemny Kosmos",
     hotel: "SunGarden Salina ⭐⭐⭐⭐", duration: "1 dzień",
-    description: "Salina Turda to jedno z najbardziej niezwykłych miejsc w Europie – XVIII-wieczna kopalnia soli zamieniona w futurystyczny park rozrywki 100 metrów pod ziemią. Komnata Rudolfa kryje amfiteatr, jezioro z łódkami, kolumbus, mini-golf i bilard. Temperatura stała 12°C i powietrze nasycone solą mają udokumentowany efekt leczniczy na układ oddechowy.",
+    description: "Salina Turda to jedno z najbardziej niezwykłych miejsc w Europie – XVIII-wieczna kopalnia soli zamieniona w futurystyczny park rozrywki 100 metrów pod ziemią. Komora Rudolf kryje amfiteatr, jezioro z łódkami, koło panoramiczne, mini-golf i bilard. Temperatura stała 12°C i powietrze nasycone solą mają udokumentowany efekt leczniczy na układ oddechowy.",
     highlights: [
-      "Komnata Rudolfa – gigantyczna przestrzeń 80 m pod ziemią",
+      "Komora Rudolf – gigantyczna przestrzeń pod ziemią",
       "Jezioro solne z łódkami wewnątrz kopalni",
       "Mini-golf, bilard, boisko 100 m pod ziemią",
-      "Koło panoramiczne w podziemnej komnacie",
+      "Koło panoramiczne w podziemnej komorze",
       "Haloterapia – lecznicze powietrze solne",
       "Solne formacje – miliony lat historii geologicznej",
     ],
     tip: "Bilety 35–45 RON, dzieci do 5 lat bezpłatnie. Temperatura 12°C przez cały rok – koniecznie weź kurtkę! Kasa 9:00–17:00, ostatnie wejście 16:00. Parkowanie bezpłatne.",
     photos: [
-      p("photo-1558618666-fcd25c85cd64", "Salina Turda – podziemna katedra soli"),
-      p("photo-1515847049296-a281d6401047", "Atmosferyczne oświetlenie komnat kopalni"),
-      p("photo-1527786356703-4b100091cd2c", "Podziemne korytarze kopalni soli"),
-      p("photo-1509316785289-025f5b846b35", "Historyczny szyb wydobywczy Saliny"),
-      p("photo-1448375240586-882707db888b", "Jezioro solne w komorze Rudolfa"),
-      p("photo-1504701954957-2010ec3bcec1", "Głęboki szyb podziemny – widok w górę"),
-      p("photo-1454496522488-7a8e488e8606", "Solne formacje skalne miliony lat"),
-      p("photo-1519681393784-d120267933ba", "Mistyczna atmosfera podziemnej kopalni"),
-      p("photo-1571019613454-1cb2f99b2d8b", "Haloterapia – lecznicze powietrze solne"),
+      commons("Salina Turda, Mina Terezia.JPG", "Salina Turda – komora Terezja"),
+      commons("Salina Turda 5.jpg", "Podziemne jezioro z łódkami w Salina Turda"),
+      commons("Roumanie Mine de sel de Turda 2019 1.jpg", "Koło panoramiczne 100 m pod ziemią"),
+      commons("Salina Turda 1.jpg", "Solne formacje i oświetlenie komór"),
+      commons("Salina Turda 045.jpg", "Podziemne korytarze kopalni soli"),
     ],
   },
   {
     day: "Dzień 19", dayRange: "28.08.2026", country: "Polska", flag: "🇵🇱",
     city: "Powrót", subtitle: "Finał Wielkiej Przygody",
     hotel: "—", duration: "Dzień podróży",
-    description: "Ostatni etap – ponad 900 km przez Słowację i Czechy z powrotem do Warszawy. 19 dni, 3500 km, 5 krajów, 9 miast, jedno niezapomniane lato rodzinne. Cadillac Escalade niósł nas przez Karpaty, Bałkany, nad Olimp i z powrotem. W bagażniku: wspomnienia na całe życie, zdjęcia z Transfăgărășan, smak greckiego morza na Pelionie i sól z Turdii.",
+    description: "Ostatni etap – ponad 900 km przez Węgry i Słowację z powrotem do Polski. 19 dni, 3500 km, 5 krajów, 9 baz, jedno niezapomniane lato rodzinne. Cadillac Escalade niósł nas przez Karpaty, Bałkany, nad Olimp i z powrotem. W bagażniku: wspomnienia na całe życie, zdjęcia z Transfăgărășan, smak greckiego morza na Pelionie i sól z Turdy.",
     highlights: [
-      "Trasa: Turda → Kluż → Bratysława → Warszawa",
+      "Trasa: Turda → Kluż → Budapeszt → Polska",
       "Razem: 3500 km, 5 krajów, 9 noclegów premium",
       "Cadillac ESV – ok. 475 litrów paliwa przez całą trasę",
       "Ekipa: 5 osób + Kot – wszyscy szczęśliwi i cali",
       "Planowanie kolejnego roadtripu 2027",
     ],
-    tip: "Dwie przerwy: przy Brnie i na granicy polskiej. Słowacja i Czechy wymagają winiety. Dotankuj do pełna przed wjazdem do Polski. Dobrej drogi!",
+    tip: "Zaplanuj przerwy przy Budapeszcie i na granicy. Słowacja, Węgry i Czechy wymagają winiety. Dotankuj do pełna przed wjazdem do Polski. Dobrej drogi!",
     photos: [
-      p("photo-1434626881859-194d67b2b86f", "Ostatnia góralska droga powrotna"),
-      p("photo-1486325212027-8081e485255e", "Przez lasy środkowej Europy"),
-      p("photo-1426604966848-d7adac402bff", "Autostrada na wprost – powrót do domu"),
-      p("photo-1506905925346-21bda4d32df4", "Zachód słońca nad Karpatami – ostatni widok"),
-      p("photo-1469474968028-56623f02e42e", "Zielone lasy Czech i Słowacji"),
-      p("photo-1464822759023-fed622ff2c3b", "Wspomnienia z gór Bałkanów"),
+      commons("Krosno-Market Square-Panorama-03.JPG", "Powrót do Krosna – meta wyprawy"),
+      commons("Transfagarasean.JPG", "Ostatnie wspomnienie z karpackich serpentyn"),
     ],
   },
 ];
@@ -412,32 +364,38 @@ export function RoutePreview() {
                 <ZoomIn size={16} />
               </button>
 
-              <button onClick={prevPhoto}
-                className="absolute left-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 backdrop-blur-sm text-white/70 hover:text-white hover:bg-black/70 transition-all">
-                <ChevronLeft size={18} />
-              </button>
-              <button onClick={nextPhoto}
-                className="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 backdrop-blur-sm text-white/70 hover:text-white hover:bg-black/70 transition-all">
-                <ChevronRight size={18} />
-              </button>
+              {stop.photos.length > 1 && (
+                <>
+                  <button onClick={prevPhoto}
+                    className="absolute left-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 backdrop-blur-sm text-white/70 hover:text-white hover:bg-black/70 transition-all">
+                    <ChevronLeft size={18} />
+                  </button>
+                  <button onClick={nextPhoto}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 backdrop-blur-sm text-white/70 hover:text-white hover:bg-black/70 transition-all">
+                    <ChevronRight size={18} />
+                  </button>
 
-              <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 flex-wrap justify-center max-w-xs">
-                {stop.photos.map((_, i) => (
-                  <button key={i} onClick={() => setPhotoIdx(i)}
-                    className={`rounded-full transition-all duration-200 ${i === photoIdx ? "w-4 h-1.5 bg-primary" : "w-1.5 h-1.5 bg-white/35 hover:bg-white/60"}`} />
-                ))}
-              </div>
+                  <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 flex-wrap justify-center max-w-xs">
+                    {stop.photos.map((_, i) => (
+                      <button key={i} onClick={() => setPhotoIdx(i)}
+                        className={`rounded-full transition-all duration-200 ${i === photoIdx ? "w-4 h-1.5 bg-primary" : "w-1.5 h-1.5 bg-white/35 hover:bg-white/60"}`} />
+                    ))}
+                  </div>
+                </>
+              )}
             </div>
 
             {/* MINIATURY */}
-            <div className="flex gap-1.5 px-4 pt-3 pb-1 overflow-x-auto shrink-0 scrollbar-thin">
-              {stop.photos.map((ph, i) => (
-                <button key={i} onClick={() => setPhotoIdx(i)}
-                  className={`shrink-0 w-14 h-10 rounded-md overflow-hidden border-2 transition-all ${i === photoIdx ? "border-primary" : "border-transparent opacity-50 hover:opacity-80"}`}>
-                  <img src={ph.url} alt={ph.caption} className="w-full h-full object-cover" />
-                </button>
-              ))}
-            </div>
+            {stop.photos.length > 1 && (
+              <div className="flex gap-1.5 px-4 pt-3 pb-1 overflow-x-auto shrink-0 scrollbar-thin">
+                {stop.photos.map((ph, i) => (
+                  <button key={i} onClick={() => setPhotoIdx(i)}
+                    className={`shrink-0 w-14 h-10 rounded-md overflow-hidden border-2 transition-all ${i === photoIdx ? "border-primary" : "border-transparent opacity-50 hover:opacity-80"}`}>
+                    <img src={ph.url} alt={ph.caption} className="w-full h-full object-cover" />
+                  </button>
+                ))}
+              </div>
+            )}
 
             {/* TREŚĆ SZCZEGÓŁÓW */}
             <div className="flex-1 overflow-y-auto px-5 md:px-7 py-4 space-y-4">

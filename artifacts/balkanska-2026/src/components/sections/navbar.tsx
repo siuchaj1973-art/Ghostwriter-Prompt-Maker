@@ -42,6 +42,8 @@ export function Navbar({ onOpenPdf }: { onOpenPdf: () => void }) {
           <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="hover:text-primary transition-colors">Hero</button>
           <button onClick={() => scrollTo("dashboard")} className="hover:text-primary transition-colors">Dashboard</button>
           <button onClick={() => scrollTo("trasa")} className="hover:text-primary transition-colors">Trasa</button>
+          <button onClick={() => scrollTo("planer")} className="hover:text-primary transition-colors">Planer</button>
+          <button onClick={() => scrollTo("hotele")} className="hover:text-primary transition-colors">Hotele</button>
           <button onClick={() => scrollTo("doswiadczenia")} className="hover:text-primary transition-colors">Doświadczenia</button>
         </div>
         
