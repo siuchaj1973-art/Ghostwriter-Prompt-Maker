@@ -1,0 +1,24 @@
+# zależności i artefakty buildu (odtwarzane w obrazie)
+**/node_modules
+**/dist
+**/build
+**/.turbo
+**/.vite
+
+# VCS i lokalne
+.git
+.gitignore
+**/.DS_Store
+*.log
+
+# Replit / lokalny dev
+.replit
+.replitignore
+.config
+.upm
+
+# dokumentacja/kontener (niepotrzebne w kontekście builda)
+Dockerfile
+.dockerignore
+docker-compose.yml
+DOCKER.md
