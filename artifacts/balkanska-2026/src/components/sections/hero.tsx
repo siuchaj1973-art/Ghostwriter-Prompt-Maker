@@ -1,6 +1,9 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ChevronDown, Download, Map } from "lucide-react";
+import { commons } from "@/lib/media";
+
+const HERO_IMAGE = commons("Transfagarasan-north.JPG", "", 1920).url;
 
 export function Hero({ onOpenPdf }: { onOpenPdf: () => void }) {
   const scrollToRoute = () => {
@@ -20,7 +23,7 @@ export function Hero({ onOpenPdf }: { onOpenPdf: () => void }) {
       <div 
         className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat attachment-fixed"
         style={{ 
-          backgroundImage: "url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=80')",
+          backgroundImage: `url('${HERO_IMAGE}')`,
           backgroundAttachment: "fixed"
         }}
       />

@@ -4,6 +4,8 @@ import { Navbar } from "@/components/sections/navbar";
 import { Hero } from "@/components/sections/hero";
 import { Dashboard } from "@/components/sections/dashboard";
 import { RouteTable } from "@/components/sections/route-table";
+import { Planner } from "@/components/sections/planner";
+import { Hotels } from "@/components/sections/hotels";
 import { Experiences } from "@/components/sections/experiences";
 import { Footer } from "@/components/sections/footer";
 import { PdfModal } from "@/components/pdf-modal";
@@ -18,6 +20,8 @@ export default function Home() {
         <Hero onOpenPdf={() => setIsPdfModalOpen(true)} />
         <Dashboard />
         <RouteTable />
+        <Planner />
+        <Hotels />
         <Experiences />
       </main>
       <Footer onOpenPdf={() => setIsPdfModalOpen(true)} />
