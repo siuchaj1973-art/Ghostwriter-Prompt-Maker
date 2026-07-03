@@ -3,13 +3,16 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Search, X, Plus, Check, ChevronUp, ChevronDown, Trash2, RotateCcw,
   MapPin, Hotel as HotelIcon, Clock, ZoomIn, ChevronLeft, ChevronRight,
-  Route, Compass, Mountain, Castle, Church, Landmark, Waves, Droplets, Gem, Trees,
+  Route, Compass, Download, Map as MapIcon,
+  Mountain, Castle, Church, Landmark, Waves, Droplets, Gem, Trees,
   type LucideIcon,
 } from "lucide-react";
 import {
   ATTRACTIONS, CATEGORIES, DEFAULT_ROUTE, attractionById, hotelById,
   categoryMeta, type Attraction, type Category,
 } from "@/data/trip";
+import { RouteMap } from "./route-map";
+import { exportRoutePdf } from "@/lib/pdf";
 
 const ICONS: Record<string, LucideIcon> = {
   Mountain, Castle, Church, Landmark, Waves, Droplets, Gem, Trees,
@@ -304,13 +307,23 @@ export function Planner() {
             <div className="px-4 py-3 border-b border-primary/10 flex items-center gap-2">
               <Route size={14} className="text-primary" />
               <p className="text-primary text-xs uppercase tracking-[0.15em] font-semibold">Moja trasa</p>
-              <button
-                onClick={resetRoute}
-                title="Przywróć pierwotną trasę"
-                className="ml-auto text-white/40 hover:text-primary transition-colors"
-              >
-                <RotateCcw size={14} />
-              </button>
+              <div className="ml-auto flex items-center gap-3">
+                <button
+                  onClick={() => exportRoutePdf(route)}
+                  disabled={route.length === 0}
+                  title="Pobierz ułożoną trasę jako PDF"
+                  className="text-white/40 hover:text-primary transition-colors disabled:opacity-30"
+                >
+                  <Download size={14} />
+                </button>
+                <button
+                  onClick={resetRoute}
+                  title="Przywróć pierwotną trasę"
+                  className="text-white/40 hover:text-primary transition-colors"
+                >
+                  <RotateCcw size={14} />
+                </button>
+              </div>
             </div>
 
             <div className="grid grid-cols-2 gap-px bg-white/5 text-center">
@@ -367,6 +380,25 @@ export function Planner() {
               })}
             </div>
           </div>
+        </div>
+
+        {/* ── MAPA TRASY (na żywo) ── */}
+        <div className="mt-8">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+            <div className="flex items-center gap-2">
+              <MapIcon size={16} className="text-primary" />
+              <h3 className="text-lg font-serif font-bold text-white">Mapa trasy</h3>
+              <span className="text-white/40 text-xs">— aktualizuje się na żywo</span>
+            </div>
+            <button
+              onClick={() => exportRoutePdf(route)}
+              disabled={route.length === 0}
+              className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg border border-primary/40 bg-primary/10 text-primary text-sm font-medium hover:bg-primary/20 transition-all disabled:opacity-30"
+            >
+              <Download size={15} /> Pobierz trasę (PDF)
+            </button>
+          </div>
+          <RouteMap ids={route} selectedId={previewId} onSelect={openPreview} />
         </div>
       </div>
 
