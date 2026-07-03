@@ -12,6 +12,7 @@ import {
   categoryMeta, routeDistanceKm, type Attraction, type Category,
 } from "@/data/trip";
 import { RouteMap } from "./route-map";
+import { LeafletMap } from "./leaflet-map";
 import { exportRoutePdf } from "@/lib/pdf";
 
 const ICONS: Record<string, LucideIcon> = {
@@ -44,6 +45,8 @@ export function Planner() {
   const [previewId, setPreviewId] = useState<string>(DEFAULT_ROUTE[0]);
   const [photoIdx, setPhotoIdx] = useState(0);
   const [lightbox, setLightbox] = useState<string | null>(null);
+  const [mapMode, setMapMode] = useState<"schemat" | "mapa">("mapa");
+  const [pdfBusy, setPdfBusy] = useState(false);
 
   // Zapamiętaj ułożoną trasę między sesjami przeglądarki.
   useEffect(() => {
@@ -85,6 +88,15 @@ export function Planner() {
     });
   const removeStop = (id: string) => setRoute((r) => r.filter((x) => x !== id));
   const resetRoute = () => setRoute(DEFAULT_ROUTE);
+  const runPdf = async () => {
+    if (pdfBusy || route.length === 0) return;
+    setPdfBusy(true);
+    try {
+      await exportRoutePdf(route);
+    } finally {
+      setPdfBusy(false);
+    }
+  };
 
   const stats = useMemo(() => {
     const stops = route.map(attractionById).filter(Boolean) as Attraction[];
@@ -332,9 +344,9 @@ export function Planner() {
               <p className="text-primary text-xs uppercase tracking-[0.15em] font-semibold">Moja trasa</p>
               <div className="ml-auto flex items-center gap-3">
                 <button
-                  onClick={() => exportRoutePdf(route)}
-                  disabled={route.length === 0}
-                  title="Pobierz ułożoną trasę jako PDF"
+                  onClick={runPdf}
+                  disabled={route.length === 0 || pdfBusy}
+                  title="Pobierz ułożoną trasę jako PDF (ze zdjęciami)"
                   className="text-white/40 hover:text-primary transition-colors disabled:opacity-30"
                 >
                   <Download size={14} />
@@ -417,15 +429,40 @@ export function Planner() {
               <h3 className="text-lg font-serif font-bold text-white">Mapa trasy</h3>
               <span className="text-white/40 text-xs">— aktualizuje się na żywo</span>
             </div>
-            <button
-              onClick={() => exportRoutePdf(route)}
-              disabled={route.length === 0}
-              className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg border border-primary/40 bg-primary/10 text-primary text-sm font-medium hover:bg-primary/20 transition-all disabled:opacity-30"
-            >
-              <Download size={15} /> Pobierz trasę (PDF)
-            </button>
+            <div className="flex items-center gap-3">
+              {/* przełącznik widoku mapy */}
+              <div className="inline-flex items-center gap-1 bg-background/60 border border-primary/20 rounded-lg p-1">
+                <button
+                  onClick={() => setMapMode("mapa")}
+                  className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all ${
+                    mapMode === "mapa" ? "bg-primary text-primary-foreground" : "text-white/60 hover:text-white"
+                  }`}
+                >
+                  Mapa
+                </button>
+                <button
+                  onClick={() => setMapMode("schemat")}
+                  className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all ${
+                    mapMode === "schemat" ? "bg-primary text-primary-foreground" : "text-white/60 hover:text-white"
+                  }`}
+                >
+                  Schemat
+                </button>
+              </div>
+              <button
+                onClick={runPdf}
+                disabled={route.length === 0 || pdfBusy}
+                className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg border border-primary/40 bg-primary/10 text-primary text-sm font-medium hover:bg-primary/20 transition-all disabled:opacity-40"
+              >
+                <Download size={15} /> {pdfBusy ? "Generuję…" : "Pobierz trasę (PDF)"}
+              </button>
+            </div>
           </div>
-          <RouteMap ids={route} selectedId={previewId} onSelect={openPreview} />
+          {mapMode === "mapa" ? (
+            <LeafletMap ids={route} selectedId={previewId} onSelect={openPreview} />
+          ) : (
+            <RouteMap ids={route} selectedId={previewId} onSelect={openPreview} />
+          )}
         </div>
       </div>
 
