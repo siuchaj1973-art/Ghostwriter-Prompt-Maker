@@ -106,7 +106,7 @@ export function Planner() {
 
   return (
     <section id="planer" className="py-24 md:py-32 bg-background relative border-t border-primary/10">
-      <div className="container mx-auto px-6 md:px-12">
+      <div className="mx-auto w-full max-w-[1800px] px-6 md:px-12 2xl:px-20">
         {/* Nagłówek */}
         <motion.div
           initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}

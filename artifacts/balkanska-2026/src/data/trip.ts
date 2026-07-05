@@ -575,6 +575,17 @@ export interface Hotel {
   matches: string[];
   /** Uzasadnienie dopasowania */
   why: string;
+  /** Liczba nocy na tym etapie */
+  nights: number;
+  /** Układ pokoi dla 5 osób (+ kot) */
+  rooms: string;
+  /** Orientacyjna cena za dobę (EUR) za potrzebne pokoje (sierpień 2026) */
+  pricePerNight: number;
+}
+
+/** Szacowany koszt pobytu (EUR): cena za dobę × liczba nocy. */
+export function hotelTotal(h: Hotel): number {
+  return h.pricePerNight * h.nights;
 }
 
 /** Link do wyszukiwarki Booking.com dla hotelu w danym mieście. */
@@ -603,6 +614,9 @@ export const HOTELS: Hotel[] = [
     nearAttractionId: "sosto-zoo",
     matches: ["rodzina", "dzieci", "blisko", "parking"],
     why: "Nowoczesny hotel w strefie Sóstó, kilka minut od zoo, aquaparku Aquarius i term — idealny na 2 dni z dziećmi. Rodzinne pokoje i własny parking dla dużego auta.",
+    nights: 2,
+    rooms: "2 pokoje (2+3 os.), pet-friendly",
+    pricePerNight: 140,
   },
   {
     id: "hilton-sibiu",
@@ -617,6 +631,9 @@ export const HOTELS: Hotel[] = [
     nearAttractionId: "sibiu",
     matches: ["premium", "parking", "sierpien", "dzieci"],
     why: "Pięciogwiazdkowa baza po całym dniu na Transfăgărășan — basen i SPA na regenerację, klimatyzacja i duży, bezpieczny parking dla Escalade ESV.",
+    nights: 2,
+    rooms: "2 pokoje Deluxe (2+3 os.)",
+    pricePerNight: 230,
   },
   {
     id: "kronwell-brasov",
@@ -631,6 +648,9 @@ export const HOTELS: Hotel[] = [
     nearAttractionId: "brasov",
     matches: ["premium", "parking", "dzieci", "blisko"],
     why: "Designerski hotel z basenem i strefą fitness, blisko starówki Braszowa i tras do Bran i Râșnov. Podziemny garaż rozwiązuje problem parkowania dużego SUV-a.",
+    nights: 2,
+    rooms: "2 pokoje (2+3 os.)",
+    pricePerNight: 150,
   },
   {
     id: "kempinski-bansko",
@@ -645,6 +665,9 @@ export const HOTELS: Hotel[] = [
     nearAttractionId: "bansko",
     matches: ["premium", "dzieci", "parking", "sierpien"],
     why: "Luksusowy resort u stóp Pirinu z rozbudowanym SPA i basenami — nagroda za górski dzień w Monastyrze Rylskim. Rodzinne apartamenty i garaż.",
+    nights: 2,
+    rooms: "Apartament rodzinny 5 os.",
+    pricePerNight: 300,
   },
   {
     id: "lazart-hotel",
@@ -659,6 +682,9 @@ export const HOTELS: Hotel[] = [
     nearAttractionId: "saloniki",
     matches: ["premium", "parking", "sierpien"],
     why: "Wygodna, dobrze skomunikowana baza na 4 noce w Salonikach — z dala od wąskich uliczek centrum, z parkingiem, blisko wyjazdówki na Meteory i Olimp.",
+    nights: 4,
+    rooms: "2 pokoje (2+3 os.)",
+    pricePerNight: 130,
   },
   {
     id: "valis-resort",
@@ -673,6 +699,9 @@ export const HOTELS: Hotel[] = [
     nearAttractionId: "makrinitsa",
     matches: ["premium", "dzieci", "sierpien", "parking"],
     why: "Nadmorski resort z basenem infinity i prywatną plażą nad Zatoką Pagazetyjską — 3 dni relaksu, idealny wypad do plaż Pelionu i Makrinitsy.",
+    nights: 3,
+    rooms: "Apartament rodzinny (2+3 os.)",
+    pricePerNight: 260,
   },
   {
     id: "yantra-grand",
@@ -687,6 +716,9 @@ export const HOTELS: Hotel[] = [
     nearAttractionId: "tsarevets",
     matches: ["blisko", "premium", "sierpien"],
     why: "Legendarny taras z widokiem wprost na twierdzę Tsarewec i pokaz świateł — najlepsza lokalizacja w mieście na wieczorny spektakl, z parkingiem hotelowym.",
+    nights: 1,
+    rooms: "2 pokoje (2+3 os.)",
+    pricePerNight: 110,
   },
   {
     id: "sungarden-salina",
@@ -701,6 +733,9 @@ export const HOTELS: Hotel[] = [
     nearAttractionId: "salina-turda",
     matches: ["premium", "dzieci", "parking", "blisko"],
     why: "Rozległy resort ogrodowy z basenami i SPA blisko Salina Turda — komfortowy finał trasy przed powrotem, z ogromnym parkingiem i pokojami rodzinnymi.",
+    nights: 1,
+    rooms: "Pokój rodzinny 5 os. / bungalow",
+    pricePerNight: 140,
   },
   {
     id: "krosno-prywatny",
@@ -715,6 +750,9 @@ export const HOTELS: Hotel[] = [
     nearAttractionId: "krosno",
     matches: ["rodzina", "parking"],
     why: "Elastyczny nocleg tranzytowy w Krośnie z miejscem na spokojne zapakowanie auta i bezpiecznym parkingiem przed startem w trasę.",
+    nights: 1,
+    rooms: "Apartament 5 os.",
+    pricePerNight: 90,
   },
   /* ── Alternatywy dopasowane do założeń ── */
   {
@@ -730,6 +768,9 @@ export const HOTELS: Hotel[] = [
     nearAttractionId: "sibiu",
     matches: ["rodzina", "parking", "dzieci"],
     why: "Tańsza alternatywa dla Hiltona z basenem i dużym parkingiem — dobra opcja, jeśli premium w Sibiu jest wyprzedane w szczycie sezonu.",
+    nights: 2,
+    rooms: "2 pokoje (2+3 os.)",
+    pricePerNight: 130,
   },
   {
     id: "kempinski-thessaloniki",
@@ -744,6 +785,9 @@ export const HOTELS: Hotel[] = [
     nearAttractionId: "saloniki",
     matches: ["premium", "dzieci", "parking"],
     why: "Pięciogwiazdkowa alternatywa z basenem na dachu i parkingiem — jeśli rodzina woli wyższy standard na 4-nocnej bazie w Salonikach.",
+    nights: 4,
+    rooms: "2 pokoje (2+3 os.)",
+    pricePerNight: 220,
   },
 ];
 

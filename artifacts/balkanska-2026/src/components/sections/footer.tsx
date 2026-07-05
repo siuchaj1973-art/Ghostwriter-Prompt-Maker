@@ -4,7 +4,7 @@ import { Download } from "lucide-react";
 export function Footer({ onOpenPdf }: { onOpenPdf: () => void }) {
   return (
     <footer className="bg-[#0a0b0d] py-16 border-t border-primary/20">
-      <div className="container mx-auto px-6 md:px-12 text-center">
+      <div className="mx-auto w-full max-w-[1800px] px-6 md:px-12 2xl:px-20 text-center">
         <div className="text-3xl font-serif font-bold text-primary tracking-widest mb-8">
           PB2026
         </div>
