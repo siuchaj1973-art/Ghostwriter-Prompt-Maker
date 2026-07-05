@@ -6,7 +6,7 @@ const experiences = [
     title: "Północny Start",
     country: "Węgry",
     flag: "🇭🇺",
-    image: commons("Omnia Sóstó Gelateria, 2017 Sóstógyógyfürdő.jpg", "", 900).url,
+    image: commons("Nyíregyháza Zoo, Elephas maximus-4.jpg", "", 900).url,
     desc: "Sóstó Zoo to jeden z najlepszych ogrodów zoologicznych w Europie Środkowej. Relaks w termach po pierwszym etapie.",
     hotel: "Hotel Pangea ⭐⭐⭐⭐",
   },
