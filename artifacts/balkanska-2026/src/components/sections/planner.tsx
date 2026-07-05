@@ -174,7 +174,7 @@ export function Planner() {
         {/* Układ 3-kolumnowy */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
           {/* ── KATALOG ── */}
-          <div className="lg:col-span-4 rounded-2xl border border-primary/15 bg-card/40 overflow-hidden flex flex-col">
+          <div className="lg:col-span-3 rounded-2xl border border-primary/15 bg-card/40 overflow-hidden flex flex-col">
             <div className="px-4 py-3 border-b border-primary/10 flex items-center justify-between">
               <p className="text-primary text-xs uppercase tracking-[0.2em] font-semibold">Katalog atrakcji</p>
               <span className="text-white/40 text-xs">{results.length}</span>
@@ -194,7 +194,7 @@ export function Planner() {
                       active ? "bg-primary/12" : "hover:bg-white/5"
                     }`}
                   >
-                    <div className="w-24 h-16 rounded-lg overflow-hidden shrink-0 bg-black/40">
+                    <div className="w-28 h-20 rounded-lg overflow-hidden shrink-0 bg-black/40">
                       <img src={a.photos[0].url} alt={a.name} loading="lazy"
                         className="w-full h-full object-cover" />
                     </div>
@@ -225,7 +225,7 @@ export function Planner() {
           </div>
 
           {/* ── PODGLĄD ── */}
-          <div className="lg:col-span-5 rounded-2xl border border-primary/15 bg-[#1A1D23] overflow-hidden">
+          <div className="lg:col-span-6 rounded-2xl border border-primary/15 bg-[#1A1D23] overflow-hidden">
             {preview && (
               <AnimatePresence mode="wait">
                 <motion.div
@@ -234,7 +234,7 @@ export function Planner() {
                   exit={{ opacity: 0 }} transition={{ duration: 0.3 }}
                 >
                   {/* galeria */}
-                  <div className="relative h-80 md:h-[440px] xl:h-[540px] bg-black overflow-hidden">
+                  <div className="relative h-80 md:h-[520px] xl:h-[660px] bg-black overflow-hidden">
                     <AnimatePresence mode="wait">
                       <motion.img
                         key={`${preview.id}-${photoIdx}`}
