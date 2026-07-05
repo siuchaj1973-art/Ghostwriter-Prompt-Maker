@@ -194,7 +194,7 @@ export function Planner() {
                       active ? "bg-primary/12" : "hover:bg-white/5"
                     }`}
                   >
-                    <div className="w-16 h-14 rounded-lg overflow-hidden shrink-0 bg-black/40">
+                    <div className="w-24 h-16 rounded-lg overflow-hidden shrink-0 bg-black/40">
                       <img src={a.photos[0].url} alt={a.name} loading="lazy"
                         className="w-full h-full object-cover" />
                     </div>
@@ -234,7 +234,7 @@ export function Planner() {
                   exit={{ opacity: 0 }} transition={{ duration: 0.3 }}
                 >
                   {/* galeria */}
-                  <div className="relative h-64 md:h-72 bg-black overflow-hidden">
+                  <div className="relative h-80 md:h-[440px] xl:h-[540px] bg-black overflow-hidden">
                     <AnimatePresence mode="wait">
                       <motion.img
                         key={`${preview.id}-${photoIdx}`}
