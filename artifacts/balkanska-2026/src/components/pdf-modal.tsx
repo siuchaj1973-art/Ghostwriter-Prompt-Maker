@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { X, FileText, CheckCircle2, Download } from "lucide-react";
-import { jsPDF } from "jspdf";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
+import { exportPlanPdf } from "@/lib/pdf";
 
 export function PdfModal({ onClose }: { onClose: () => void }) {
   const [selectedOption, setSelectedOption] = useState<number>(0);
@@ -17,48 +17,27 @@ export function PdfModal({ onClose }: { onClose: () => void }) {
     { id: 3, title: "Logistyka", desc: "Dashboard + Cadillac specs" },
   ];
 
-  const handleGenerate = () => {
+  const handleGenerate = async () => {
     setIsGenerating(true);
-    setProgress(0);
-    
-    // Simulate generation progress
-    const interval = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 100) {
-          clearInterval(interval);
-          generateActualPdf();
-          setTimeout(() => {
-            setIsGenerating(false);
-            onClose();
-          }, 1000);
-          return 100;
-        }
-        return prev + 10;
-      });
-    }, 200);
-  };
+    setProgress(8);
 
-  const generateActualPdf = () => {
-    const doc = new jsPDF();
-    const option = options[selectedOption];
-    
-    // Simple mock PDF for demonstration of the library working
-    doc.setFillColor(15, 17, 21);
-    doc.rect(0, 0, 210, 297, 'F');
-    
-    doc.setTextColor(212, 175, 55); // Gold
-    doc.setFontSize(24);
-    doc.text("PĘTLA BAŁKAŃSKA 2026", 105, 40, { align: "center" });
-    
-    doc.setTextColor(255, 255, 255);
-    doc.setFontSize(14);
-    doc.text("Rodzinny Roadtrip Premium", 105, 55, { align: "center" });
-    
-    doc.setFontSize(12);
-    doc.setTextColor(200, 200, 200);
-    doc.text(`Wygenerowano: ${option.title}`, 105, 80, { align: "center" });
-    
-    doc.save(`PB2026_${option.title.replace(/\s+/g, '_')}.pdf`);
+    // Płynny pasek postępu w trakcie generowania (ładowanie zdjęć + render).
+    const interval = setInterval(() => {
+      setProgress((prev) => (prev >= 90 ? 90 : prev + 7));
+    }, 160);
+
+    try {
+      await exportPlanPdf(selectedOption);
+      setProgress(100);
+    } catch (err) {
+      console.error("Nie udało się wygenerować PDF:", err);
+    } finally {
+      clearInterval(interval);
+      setTimeout(() => {
+        setIsGenerating(false);
+        onClose();
+      }, 600);
+    }
   };
 
   return (

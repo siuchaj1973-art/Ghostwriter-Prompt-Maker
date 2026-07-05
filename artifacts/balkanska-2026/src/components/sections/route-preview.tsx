@@ -335,7 +335,7 @@ export function RoutePreview() {
             className="flex flex-col h-full"
           >
             {/* GALERIA ZDJĘĆ */}
-            <div className="relative h-72 md:h-80 shrink-0 overflow-hidden bg-black">
+            <div className="relative h-80 md:h-[460px] xl:h-[560px] shrink-0 overflow-hidden bg-black">
               <AnimatePresence mode="wait">
                 <motion.img
                   key={`${selected}-${photoIdx}`}
