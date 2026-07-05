@@ -30,7 +30,7 @@ export function Navbar({ onOpenPdf }: { onOpenPdf: () => void }) {
         isScrolled ? "bg-background/80 backdrop-blur-md border-b border-primary/10 py-4" : "bg-transparent py-6"
       }`}
     >
-      <div className="container mx-auto px-6 md:px-12 flex items-center justify-between">
+      <div className="mx-auto w-full max-w-[1800px] px-6 md:px-12 2xl:px-20 flex items-center justify-between">
         <div 
           className="text-2xl font-serif font-bold text-primary cursor-pointer tracking-wider"
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}

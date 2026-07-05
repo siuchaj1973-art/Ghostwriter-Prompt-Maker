@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { BedDouble, MapPin, ExternalLink, Check, Star, Filter } from "lucide-react";
 import {
-  HOTELS, ASSUMPTIONS, assumptionById, bookingUrl, hotelMapUrl, type Hotel,
+  HOTELS, ASSUMPTIONS, assumptionById, bookingUrl, hotelMapUrl, hotelTotal, type Hotel,
 } from "@/data/trip";
 
 const tierLabel: Record<Hotel["priceTier"], string> = {
@@ -10,6 +10,12 @@ const tierLabel: Record<Hotel["priceTier"], string> = {
   "$$$": "Premium",
   "$$$$": "Luksus",
 };
+
+function noce(n: number): string {
+  if (n === 1) return "noc";
+  if (n >= 2 && n <= 4) return "noce";
+  return "nocy";
+}
 
 function HotelCard({ hotel, delay }: { hotel: Hotel; delay: number }) {
   return (
@@ -42,6 +48,24 @@ function HotelCard({ hotel, delay }: { hotel: Hotel; delay: number }) {
       </div>
 
       <p className="text-white/70 text-sm leading-relaxed flex-1">{hotel.why}</p>
+
+      {/* Pokoje i szacowana cena */}
+      <div className="mt-4 rounded-lg border border-primary/20 bg-primary/[0.06] px-3.5 py-3">
+        <div className="flex items-center gap-2 text-white/80 text-xs">
+          <BedDouble size={13} className="text-primary shrink-0" />
+          <span>{hotel.rooms}</span>
+        </div>
+        <div className="mt-2.5 flex items-end justify-between gap-3">
+          <div className="text-xs">
+            <span className="text-white/45">{hotel.nights} {noce(hotel.nights)} · </span>
+            <span className="text-white/80 font-medium">~{hotel.pricePerNight} €/noc</span>
+          </div>
+          <div className="text-right leading-tight">
+            <span className="block text-[10px] uppercase tracking-wider text-white/40">Razem za pobyt</span>
+            <span className="text-primary font-semibold text-base">~{hotelTotal(hotel)} €</span>
+          </div>
+        </div>
+      </div>
 
       {/* Dopasowanie do pierwotnych założeń */}
       <div className="mt-4">
@@ -80,9 +104,13 @@ export function Hotels() {
     ? HOTELS
     : HOTELS.filter((h) => h.matches.includes(assumption));
 
+  const planHotels = HOTELS.filter((h) => h.origin === "plan");
+  const planTotal = planHotels.reduce((s, h) => s + hotelTotal(h), 0);
+  const planNights = planHotels.reduce((s, h) => s + h.nights, 0);
+
   return (
     <section id="hotele" className="py-24 md:py-32 bg-card relative border-t border-primary/10">
-      <div className="container mx-auto px-6 md:px-12">
+      <div className="mx-auto w-full max-w-[1800px] px-6 md:px-12 2xl:px-20">
         <motion.div
           initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }} transition={{ duration: 0.8 }}
@@ -135,9 +163,17 @@ export function Hotels() {
           ))}
         </div>
 
-        <p className="text-white/30 text-xs text-center mt-8">
-          Linki „Sprawdź ceny" prowadzą do wyszukiwarki Booking.com dla danego obiektu i terminu.
-          Dostępność i ceny w sierpniu 2026 potwierdź przed rezerwacją.
+        <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 text-center">
+          <div className="glass-panel rounded-xl px-6 py-4">
+            <p className="text-white/50 text-xs uppercase tracking-widest mb-1">Szacowany koszt noclegów (plan)</p>
+            <p className="text-2xl font-serif text-primary">~{planTotal.toLocaleString("pl-PL")} €</p>
+            <p className="text-white/40 text-xs mt-1">{planNights} nocy · 9 baz noclegowych · 5 osób + Kot</p>
+          </div>
+        </div>
+
+        <p className="text-white/30 text-xs text-center mt-6">
+          Ceny są orientacyjne (sierpień 2026, za potrzebne pokoje dla 5 osób) i mogą się różnić.
+          Linki „Sprawdź ceny" prowadzą do wyszukiwarki Booking.com — dostępność i aktualne stawki potwierdź przed rezerwacją.
         </p>
       </div>
     </section>

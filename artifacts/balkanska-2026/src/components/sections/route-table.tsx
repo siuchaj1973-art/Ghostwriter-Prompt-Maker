@@ -21,7 +21,7 @@ export function RouteTable() {
 
   return (
     <section id="trasa" className="py-24 md:py-32 bg-card relative">
-      <div className="container mx-auto px-6 md:px-12">
+      <div className="mx-auto w-full max-w-[1800px] px-6 md:px-12 2xl:px-20">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
