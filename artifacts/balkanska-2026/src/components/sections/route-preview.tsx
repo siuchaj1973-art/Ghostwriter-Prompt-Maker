@@ -70,7 +70,13 @@ const stops: Stop[] = [
       tip: "Aquarius działa w sezonie letnim (Czerwiec–Wrzesień). Część indoor (Aquarius Bath) czynna cały rok. Bilet łączony Zoo + Aquarius to duża oszczędność. Idealna kolejność: Zoo (9–13) → obiad → Aquarius (14–19) → Termy wieczorem.",
     },
     photos: [
-      commons("Omnia Sóstó Gelateria, 2017 Sóstógyógyfürdő.jpg", "Sóstógyógyfürdő – kurort z zoo, aquaparkiem i termami"),
+      commons("Nyíregyháza Zoo, Elephas maximus-4.jpg", "Słoń azjatycki w Sóstó Zoo"),
+      commons("Nyíregyháza Zoo, Rhinoceros unicornis-3.jpg", "Nosorożec indyjski na wybiegu"),
+      commons("Nyíregyháza Zoo, gorilla.jpg", "Goryl – Sóstó Zoo w Nyíregyháza"),
+      commons("Nyíregyháza Zoo, antilop-2.jpg", "Antylopy na naturalistycznym wybiegu"),
+      commons("Nyíregyháza Zoo, palm-house-3.jpg", "Palmiarnia – tropikalna część zoo"),
+      commons("Oceanarium in Nyíregyháza Zoo-3.jpg", "Oceanarium – podwodny świat"),
+      commons("Omnia Sóstó Gelateria, 2017 Sóstógyógyfürdő.jpg", "Sóstógyógyfürdő – termy i kurort"),
     ],
   },
   {

@@ -121,7 +121,10 @@ export const ATTRACTIONS: Attraction[] = [
     ],
     tip: "Zoo otwarte od 9:00, bilety online (kolejki w sierpniu). Karnet rodzinny 2+3 to duża oszczędność. Plan: Zoo rano → Aquarius po południu → Termy wieczorem.",
     photos: [
-      commons("Omnia Sóstó Gelateria, 2017 Sóstógyógyfürdő.jpg", "Sóstógyógyfürdő — kurort przy zoo w Nyíregyháza"),
+      commons("Nyíregyháza Zoo, Elephas maximus-4.jpg", "Słoń azjatycki w Sóstó Zoo"),
+      commons("Nyíregyháza Zoo, Rhinoceros unicornis-3.jpg", "Nosorożec indyjski na wybiegu"),
+      commons("Nyíregyháza Zoo, gorilla.jpg", "Goryl — Sóstó Zoo w Nyíregyháza"),
+      commons("Nyíregyháza Zoo, palm-house-3.jpg", "Palmiarnia — tropikalna część zoo"),
     ],
     baseHotelId: "hotel-pangea",
   },
@@ -145,7 +148,9 @@ export const ATTRACTIONS: Attraction[] = [
     ],
     tip: "Sezon letni (VI–IX); część indoor czynna cały rok. Bilet łączony Zoo + Aquarius to duża oszczędność.",
     photos: [
-      commons("Omnia Sóstó Gelateria, 2017 Sóstógyógyfürdő.jpg", "Kompleks wypoczynkowy Sóstó w Nyíregyháza"),
+      commons("Oceanarium in Nyíregyháza Zoo-3.jpg", "Oceanarium w kompleksie Sóstó"),
+      commons("Nyíregyháza Zoo, Aquarium, underground passage.jpg", "Podwodny tunel akwarium"),
+      commons("Omnia Sóstó Gelateria, 2017 Sóstógyógyfürdő.jpg", "Kurort Sóstógyógyfürdő z termami"),
     ],
     baseHotelId: "hotel-pangea",
   },
